@@ -1,17 +1,10 @@
 package com.example.service
 
-import com.auth0.jwt.JWT
-import com.example.config.SecurityConfig
-import com.example.model.RefreshToken
-import com.example.model.RefreshTokens
 import com.example.model.User
-import com.example.model.Users
 import com.example.repository.UserRepository
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
-import java.time.LocalDateTime
-import java.util.Date
-import java.util.UUID
+
 
 class AuthService(
     private val userRepository: UserRepository,
@@ -38,18 +31,21 @@ class AuthService(
         }
     }
 
-    fun authenticate(email: String, password: String): Result<Pair<String, String>> {
+    fun authenticate(email: String, password: String): Result<Pair<User, Pair<String, String>>> {
         return try {
-            val user = userRepository.findByEmail(email)
-                ?: throw IllegalArgumentException("Invalid credentials")
+            val (user, tokens) = transaction {
+                val user = userRepository.findByEmail(email)
+                    ?: throw IllegalArgumentException("Invalid credentials")
 
-            if (!verifyPassword(password, user.passwordHash)) {
-                throw IllegalArgumentException("Invalid credentials")
+                if (!verifyPassword(password, user.passwordHash)) {
+                    throw IllegalArgumentException("Invalid credentials")
+                }
+
+                val tokens = tokenService.generateTokenPair(user)
+                Pair(user, tokens)
             }
 
-            val (accessToken, refreshToken) = tokenService.generateTokenPair(user)
-
-            Result.success(Pair(accessToken, refreshToken))
+            Result.success(Pair(user, tokens))
         } catch (e: Exception) {
             Result.failure(e)
         }

@@ -1,7 +1,5 @@
 package com.example.route
 
-import com.example.model.User
-import com.example.model.Users
 import com.example.service.AuthService
 import com.example.service.TokenService
 import io.ktor.http.HttpStatusCode
@@ -10,28 +8,34 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RegisterRequest(
     val email: String,
     val password: String,
     val name: String
 )
 
+@Serializable
 data class LoginRequest(
     val email: String,
     val password: String
 )
 
+@Serializable
 data class RefreshRequest(
     val refreshToken: String
 )
 
+@Serializable
 data class AuthResponse(
     val accessToken: String,
     val refreshToken: String,
     val user: UserInfo
 )
 
+@Serializable
 data class UserInfo(
     val id: Int,
     val email: String,
@@ -97,8 +101,8 @@ fun Route.authRouting(
                     request.password
                 )
 
-                result.onSuccess { (accessToken, refreshToken) ->
-                    val user = User.find { Users.email eq request.email }.first()
+                result.onSuccess { (user, tokens) ->
+                    val (accessToken, refreshToken) = tokens
 
                     call.respond(HttpStatusCode.OK, AuthResponse(
                         accessToken = accessToken,
