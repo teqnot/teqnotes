@@ -1,4 +1,4 @@
-package com.example.db
+package db
 
 import com.example.model.Blocks
 import com.example.model.Friendships
@@ -10,7 +10,6 @@ import com.example.model.RefreshTokens
 import com.example.model.TeamMembers
 import com.example.model.Teams
 import com.example.model.Users
-import junit.framework.TestCase.assertTrue
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -25,7 +24,7 @@ class DatabaseSchemaTest {
         @BeforeAll
         @JvmStatic
         fun setup() {
-            Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
+            Database.Companion.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
 
             transaction {
                 SchemaUtils.createMissingTablesAndColumns(
