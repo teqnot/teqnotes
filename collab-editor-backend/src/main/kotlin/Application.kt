@@ -5,18 +5,24 @@ import com.example.config.SecurityConfig
 import com.example.repository.RefreshTokenRepositoryImpl
 import com.example.repository.UserRepositoryImpl
 import com.example.route.authRouting
+import com.example.route.healthcheckRouting
 import com.example.service.AuthService
 import com.example.service.TokenService
 import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
+import io.ktor.serialization.kotlinx.json.json
 
 fun main(args: Array<String>) {
     DatabaseConfig.init()
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        configureSerialization()
+        install(ContentNegotiation) {
+            json()
+        }
+
         configureSecurity()
         configureRouting()
     }.start(wait = true)
@@ -34,5 +40,6 @@ fun Application.configureRouting() {
 
     routing {
         authRouting(authService, tokenService)
+        healthcheckRouting()
     }
 }
