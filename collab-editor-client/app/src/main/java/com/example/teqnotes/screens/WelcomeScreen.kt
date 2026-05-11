@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,9 +23,6 @@ import androidx.compose.ui.unit.sp
 import com.example.teqnotes.components.CollabButton
 import com.example.teqnotes.components.DividerText
 import com.example.teqnotes.components.TeqnotesLogo
-import com.example.teqnotes.ui.theme.ButtonBg
-import com.example.teqnotes.ui.theme.Secondary
-
 import com.example.teqnotes.ui.theme.Typography
 
 @Composable
@@ -33,7 +33,9 @@ fun WelcomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .systemBarsPadding()
+            .imePadding(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -57,6 +59,7 @@ fun WelcomeScreen(
             Text(
                 text = "Добро пожаловать!",
                 style = Typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
             )
 
@@ -69,7 +72,7 @@ fun WelcomeScreen(
                 style = Typography.bodyLarge.copy(
                     lineHeight = 24.sp
                 ),
-                color = Secondary,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 0.dp)
@@ -80,7 +83,6 @@ fun WelcomeScreen(
             CollabButton(
                 text = "Зарегистрироваться",
                 onClick = onRegisterClick,
-                backgroundColor = ButtonBg,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -98,7 +100,6 @@ fun WelcomeScreen(
                 onClick = onLoginClick,
                 backgroundColor = Color.Transparent,
                 borderWidth = 4f,
-                borderColor = ButtonBg,
                 modifier = Modifier
                     .fillMaxWidth()
             )

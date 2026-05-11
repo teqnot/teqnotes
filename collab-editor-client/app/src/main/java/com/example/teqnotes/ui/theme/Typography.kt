@@ -1,5 +1,6 @@
 package com.example.teqnotes.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -20,19 +21,16 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = FiraCode,
         fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-        color = Primary
+        fontSize = 32.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = FiraCode,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        color = Secondary
+        fontSize = 20.sp
     ),
     labelMedium = TextStyle(
         fontFamily = FiraCode,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        color = Secondary
+        fontSize = 16.sp
     )
 )

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,15 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.teqnotes.ui.theme.ButtonBg
 import com.example.teqnotes.ui.theme.Typography
 
 @Composable
 fun DividerText(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = ButtonBg,
-    lineColor: Color = ButtonBg
+    textColor: Color = MaterialTheme.colorScheme.surface,
+    lineColor: Color = MaterialTheme.colorScheme.surface
 ) {
     Row(
         modifier = modifier
