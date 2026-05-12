@@ -39,7 +39,6 @@ fun CustomTextField(
     val isFilled = value.isNotEmpty()
 
     val borderColor = if (isFilled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
-    val textColor = if (isFilled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
     val iconColor = if (isFilled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
     val placeholderColor = if (isFilled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
 

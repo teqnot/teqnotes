@@ -1,4 +1,4 @@
-package com.example.teqnotes.screens
+package com.example.teqnotes.screens.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
