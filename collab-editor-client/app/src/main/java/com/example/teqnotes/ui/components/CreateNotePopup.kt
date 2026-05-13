@@ -1,4 +1,4 @@
-package com.example.teqnotes.components
+package com.example.teqnotes.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -82,7 +82,7 @@ fun CreateNotePopup(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Создать новую заметку",
+                        text = "Быстрая заметка",
                         fontFamily = FiraCode,
                         fontWeight = FontWeight.Medium,
                         fontSize = 18.sp,

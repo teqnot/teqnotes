@@ -1,4 +1,4 @@
-package com.example.teqnotes.components
+package com.example.teqnotes.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

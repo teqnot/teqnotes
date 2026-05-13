@@ -11,18 +11,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.teqnotes.components.BottomBar
-import com.example.teqnotes.components.CreateNotePopup
-import com.example.teqnotes.screens.auth.LoginScreen
-import com.example.teqnotes.screens.auth.RegisterScreen
-import com.example.teqnotes.screens.auth.WelcomeScreen
-import com.example.teqnotes.screens.home.HomeScreen
-import com.example.teqnotes.screens.notifications.NotificationsScreen
-import com.example.teqnotes.screens.settings.SettingsScreen
-import com.example.teqnotes.screens.teams.TeamsScreen
+import androidx.navigation.navArgument
+import com.example.teqnotes.ui.components.BottomBar
+import com.example.teqnotes.ui.components.CreateNotePopup
+import com.example.teqnotes.ui.screens.auth.LoginScreen
+import com.example.teqnotes.ui.screens.auth.RegisterScreen
+import com.example.teqnotes.ui.screens.auth.WelcomeScreen
+import com.example.teqnotes.ui.screens.home.HomeScreen
+import com.example.teqnotes.ui.screens.notifications.NotificationsScreen
+import com.example.teqnotes.ui.screens.projects.ProjectScreen
+import com.example.teqnotes.ui.screens.settings.SettingsScreen
+import com.example.teqnotes.ui.screens.teams.TeamsScreen
 import com.example.teqnotes.utils.HapticFeedback
 
 sealed class Screen(val route: String) {
@@ -33,6 +36,7 @@ sealed class Screen(val route: String) {
     object Teams : Screen("teams")
     object Notifications : Screen("notifications")
     object Settings : Screen("settings")
+    object Project : Screen("project")
 }
 
 @Composable
@@ -108,7 +112,24 @@ fun AppNavGraph(
                 }
 
                 composable(Screen.Home.route) {
-                    HomeScreen()
+                    HomeScreen(
+                        onProjectClick = { projectId ->
+                            navController.navigate("${Screen.Project.route}/$projectId")
+                        }
+                    )
+                }
+
+                composable(
+                    route = "${Screen.Project.route}/{projectId}",
+                    arguments = listOf(
+                        navArgument("projectId") { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val projectId = backStackEntry.arguments?.getString("projectId") ?: "default"
+                    ProjectScreen(
+                        projectName = "Проект $projectId",
+                        onBackClick = { navController.popBackStack() }
+                    )
                 }
 
                 composable(Screen.Teams.route) {
@@ -121,6 +142,13 @@ fun AppNavGraph(
 
                 composable(Screen.Settings.route) {
                     SettingsScreen()
+                }
+
+                composable(Screen.Project.route) {
+                    ProjectScreen(
+                        projectName = "Мой проект",
+                        onBackClick = { navController.popBackStack() }
+                    )
                 }
             }
 

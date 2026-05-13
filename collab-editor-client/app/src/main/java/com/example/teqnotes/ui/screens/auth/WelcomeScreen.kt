@@ -1,4 +1,4 @@
-package com.example.teqnotes.screens.auth
+package com.example.teqnotes.ui.screens.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.teqnotes.components.CollabButton
-import com.example.teqnotes.components.DividerText
-import com.example.teqnotes.components.TeqnotesLogo
+import com.example.teqnotes.ui.components.CollabButton
+import com.example.teqnotes.ui.components.DividerText
+import com.example.teqnotes.ui.components.TeqnotesLogo
 import com.example.teqnotes.ui.theme.Typography
 
 @Composable

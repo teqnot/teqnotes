@@ -1,4 +1,4 @@
-package com.example.teqnotes.components
+package com.example.teqnotes.ui.components.notecard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -58,7 +58,7 @@ fun NewNoteCard(
                 Icon(
                     painter = painterResource(id = R.drawable.sv_add),
                     contentDescription = "New note",
-                    tint = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .size(24.dp)
                         .align(Alignment.Center)

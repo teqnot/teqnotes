@@ -1,4 +1,4 @@
-package com.example.teqnotes.screens.notifications
+package com.example.teqnotes.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.teqnotes.ui.theme.Typography
 
 @Composable
-fun NotificationsScreen() {
+fun SettingsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,7 +23,7 @@ fun NotificationsScreen() {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "Уведомления",
+            text = "Настройки",
             style = Typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary

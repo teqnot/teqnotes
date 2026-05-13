@@ -1,4 +1,4 @@
-package com.example.teqnotes.screens.teams
+package com.example.teqnotes.ui.screens.notifications
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.teqnotes.ui.theme.Typography
 
 @Composable
-fun TeamsScreen() {
+fun NotificationsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,7 +23,7 @@ fun TeamsScreen() {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "Команды",
+            text = "Уведомления",
             style = Typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary

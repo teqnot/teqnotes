@@ -1,4 +1,4 @@
-package com.example.teqnotes.components
+package com.example.teqnotes.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import com.example.teqnotes.R
 import com.example.teqnotes.ui.theme.FiraCode
 
 @Composable
-fun NoteCard(
+fun ProjectCard(
     title: String,
     subtitle: String,
     onClick: () -> Unit
@@ -100,6 +100,6 @@ fun NoteCard(
 
 @Preview
 @Composable
-fun NoteCardPreview() {
-    NoteCard(title = "New Note", subtitle = "Lorem ipsum", onClick = { /* do nothing */ })
+fun ProjectCardPreview() {
+    ProjectCard(title = "New Note", subtitle = "Lorem ipsum", onClick = { /* do nothing */ })
 }

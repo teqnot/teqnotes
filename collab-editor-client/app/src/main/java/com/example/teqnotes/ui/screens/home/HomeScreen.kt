@@ -1,4 +1,4 @@
-package com.example.teqnotes.screens.home
+package com.example.teqnotes.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,14 +16,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.teqnotes.R
-import com.example.teqnotes.components.CustomTextField
-import com.example.teqnotes.components.NewNoteCard
-import com.example.teqnotes.components.NoteCard
+import com.example.teqnotes.ui.components.CustomTextField
+import com.example.teqnotes.ui.components.notecard.NewNoteCard
+import com.example.teqnotes.ui.components.notecard.NoteCard
+import com.example.teqnotes.ui.components.ProjectCard
 import com.example.teqnotes.ui.theme.Typography
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onProjectClick: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,10 +67,12 @@ fun HomeScreen() {
             }
 
             items(2) { index ->
-                NoteCard(
-                    title = "Пляж",
+                ProjectCard(
+                    title = "Проект $index",
                     subtitle = "Lorem ipsum",
-                    onClick = { /* TODO: open project */ }
+                    onClick = {
+                        onProjectClick("project_$index")
+                    }
                 )
             }
 
@@ -79,4 +83,10 @@ fun HomeScreen() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen(onProjectClick = { /* preview */})
 }
