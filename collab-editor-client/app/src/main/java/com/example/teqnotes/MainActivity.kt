@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.example.teqnotes.navigation.AppNavGraph
-import com.example.teqnotes.navigation.Screen
-import com.example.teqnotes.ui.theme.TeqnotesTheme
+import com.example.teqnotes.core.navigation.AppNavGraph
+import com.example.teqnotes.core.navigation.Screen
+import com.example.teqnotes.core.ui.theme.TeqnotesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
