@@ -7,25 +7,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teqnotes.R
 import com.example.teqnotes.core.ui.components.CustomTextField
 import com.example.teqnotes.core.ui.components.notecard.NewNoteCard
 import com.example.teqnotes.core.ui.components.notecard.NoteCard
 import com.example.teqnotes.core.ui.components.ProjectCard
 import com.example.teqnotes.core.ui.theme.Typography
+import com.example.teqnotes.features.home.presentation.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    onProjectClick: (String) -> Unit
+    onProjectClick: (String) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val state = viewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,20 +65,20 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(3) { index ->
+            items(state.value.individualNotes) { note ->
                 NoteCard(
-                    title = "Курсач",
+                    title = note.title,
                     subtitle = "Lorem ipsum",
                     onClick = { /* TODO: open note */ }
                 )
             }
 
-            items(2) { index ->
+            items(state.value.projects) { project ->
                 ProjectCard(
-                    title = "Проект $index",
+                    title = project.name,
                     subtitle = "Lorem ipsum",
                     onClick = {
-                        onProjectClick("project_$index")
+                        onProjectClick(project.id)
                     }
                 )
             }

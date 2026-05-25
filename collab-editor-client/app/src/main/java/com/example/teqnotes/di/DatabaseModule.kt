@@ -2,6 +2,8 @@ package com.example.teqnotes.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.teqnotes.features.home.data.local.NoteDao
+import com.example.teqnotes.features.home.data.local.ProjectDao
 import com.example.teqnotes.features.notifications.data.local.NotificationDao
 import dagger.Module
 import dagger.Provides
@@ -23,12 +25,26 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "teq_notes_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideNotificationDao(database: AppDatabase): NotificationDao {
         return database.notificationDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteDao(database: AppDatabase): NoteDao {
+        return database.noteDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProjectDao(database: AppDatabase): ProjectDao {
+        return database.projectDao()
     }
 }
