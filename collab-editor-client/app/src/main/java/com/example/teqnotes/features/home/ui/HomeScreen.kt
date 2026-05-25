@@ -10,8 +10,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teqnotes.R
+import com.example.teqnotes.core.ui.components.CreatePopup
+import com.example.teqnotes.core.ui.components.CreationType
 import com.example.teqnotes.core.ui.components.CustomTextField
 import com.example.teqnotes.core.ui.components.notecard.NewNoteCard
 import com.example.teqnotes.core.ui.components.notecard.NoteCard
@@ -32,6 +34,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState.collectAsState()
+    var isCreatePopupVisible by remember { mutableStateOf(false) }
+
+    val projectNames = state.value.projects.map { it.name }
+    val friendNames = listOf("Иван", "Мария", "Алексей") // TODO: handle friends
 
     Column(
         modifier = Modifier
@@ -85,10 +91,30 @@ fun HomeScreen(
 
             item {
                 NewNoteCard(
-                    onClick = { /* TODO: create new note */ }
+                    onClick = { isCreatePopupVisible = true }
                 )
             }
         }
+    }
+
+    if (isCreatePopupVisible) {
+        CreatePopup(
+            isVisible = true,
+            onDismiss = { isCreatePopupVisible = false },
+            onCreate = { creationType, title, description, extra ->
+                when (creationType) {
+                    CreationType.NOTE -> {
+                        viewModel.createNewNote(title, description, extra)
+                    }
+                    CreationType.PROJECT -> {
+                        viewModel.createNewProject(title, description, extra)
+                    }
+                }
+                isCreatePopupVisible = false
+            },
+            projects = projectNames,
+            friends = friendNames
+        )
     }
 }
 

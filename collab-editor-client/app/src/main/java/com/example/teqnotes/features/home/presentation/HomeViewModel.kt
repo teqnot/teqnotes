@@ -47,6 +47,39 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun createNewNote(title: String, description: String, projectName: String? = null) {
+        viewModelScope.launch {
+            val projectId = if (projectName != null) {
+                _uiState.value.projects.find { it.name == projectName }?.id
+            } else {
+                null
+            }
+
+            createNoteUseCase(
+                Note(
+                    id = "note_${System.currentTimeMillis()}",
+                    title = title,
+                    content = description,
+                    projectId = projectId,
+                    timestamp = System.currentTimeMillis()
+                )
+            )
+        }
+    }
+
+    fun createNewProject(name: String, description: String, friendEmails: String? = null) {
+        viewModelScope.launch {
+            createProjectUseCase(
+                Project(
+                    id = "project_${System.currentTimeMillis()}",
+                    name = name,
+                    description = description,
+                    createdAt = System.currentTimeMillis()
+                )
+            )
+        }
+    }
+
     private fun loadMockData() {
         viewModelScope.launch {
             createNoteUseCase(
