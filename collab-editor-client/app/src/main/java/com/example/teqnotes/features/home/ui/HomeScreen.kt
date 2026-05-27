@@ -36,7 +36,9 @@ fun HomeScreen(
     val state = viewModel.uiState.collectAsState()
     var isCreatePopupVisible by remember { mutableStateOf(false) }
 
-    val projectNames = state.value.projects.map { it.name }
+    val projectMap = state.value.projects.associate {
+        it.name to it.id
+    }
     val friendNames = listOf("Иван", "Мария", "Алексей") // TODO: handle friends
 
     Column(
@@ -102,17 +104,27 @@ fun HomeScreen(
             isVisible = true,
             onDismiss = { isCreatePopupVisible = false },
             onCreate = { creationType, title, description, extra ->
+
                 when (creationType) {
                     CreationType.NOTE -> {
-                        viewModel.createNewNote(title, description, extra)
+                        viewModel.createNewNote(
+                            title,
+                            description,
+                            extra
+                        )
                     }
+
                     CreationType.PROJECT -> {
-                        viewModel.createNewProject(title, description, extra)
+                        viewModel.createNewProject(
+                            title,
+                            description
+                        )
                     }
                 }
+
                 isCreatePopupVisible = false
             },
-            projects = projectNames,
+            projects = projectMap,
             friends = friendNames
         )
     }

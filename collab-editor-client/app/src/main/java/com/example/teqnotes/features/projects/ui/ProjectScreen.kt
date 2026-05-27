@@ -7,22 +7,43 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teqnotes.R
+import com.example.teqnotes.core.ui.components.CreatePopup
+import com.example.teqnotes.core.ui.components.CreationType
 import com.example.teqnotes.core.ui.components.CustomTextField
 import com.example.teqnotes.core.ui.components.InfoTopBar
 import com.example.teqnotes.core.ui.components.notecard.NewNoteCard
 import com.example.teqnotes.core.ui.components.notecard.NoteCard
+import com.example.teqnotes.features.home.presentation.HomeViewModel
 
 @Composable
 fun ProjectScreen(
+    projectId: String,
     projectName: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val projectNotes by viewModel.projectNotes.collectAsState()
+    var isCreatePopupVisible by remember { mutableStateOf(false) }
+
+    val projects by viewModel.uiState.collectAsState()
+    val projectMap = projects.projects.associate {
+        it.name to it.id
+    }
+
+    val currentProject = projects.projects.find { it.id == projectId }
+    val currentProjectName = currentProject?.name ?: projectName
+
+    LaunchedEffect(projectId) {
+        viewModel.loadProjectNotes(projectId)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,9 +76,9 @@ fun ProjectScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(3) { index ->
+            items(projectNotes) { note ->
                 NoteCard(
-                    title = "Заметка $index",
+                    title = note.title,
                     subtitle = "Lorem ipsum",
                     onClick = { /* TODO: open note */ }
                 )
@@ -65,15 +86,30 @@ fun ProjectScreen(
 
             item {
                 NewNoteCard(
-                    onClick = { /* TODO: create new note */ }
+                    onClick = { isCreatePopupVisible = true }
                 )
             }
         }
     }
-}
 
-@Preview()
-@Composable
-fun ProjectScreenPreview() {
-    ProjectScreen(projectName = "foo", onBackClick = { /* preview */})
+    if (isCreatePopupVisible) {
+        CreatePopup(
+            isVisible = true,
+            onDismiss = { isCreatePopupVisible = false },
+            onCreate = { creationType, title, description, extra ->
+                if (title.isNotBlank() && description.isNotBlank()) {
+                    if (creationType == CreationType.NOTE) {
+                        viewModel.createNewNote(title, description, projectId)
+                    } else {
+                        viewModel.createNewProject(title, description)
+                    }
+                }
+                isCreatePopupVisible = false
+            },
+            projects = projectMap,
+            friends = emptyList(),
+            defaultProjectId = projectId,
+            defaultProjectName = currentProjectName
+        )
+    }
 }

@@ -7,6 +7,7 @@ import com.example.teqnotes.features.home.domain.model.Project
 import com.example.teqnotes.features.home.domain.usecase.CreateNoteUseCase
 import com.example.teqnotes.features.home.domain.usecase.CreateProjectUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetIndividualNotesUseCase
+import com.example.teqnotes.features.home.domain.usecase.GetNotesByProjectUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetProjectsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +19,16 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getIndividualNotesUseCase: GetIndividualNotesUseCase,
     private val getProjectsUseCase: GetProjectsUseCase,
+    private val getNotesByProjectUseCase: GetNotesByProjectUseCase,
     private val createNoteUseCase: CreateNoteUseCase,
     private val createProjectUseCase: CreateProjectUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _projectNotes = MutableStateFlow<List<Note>>(emptyList())
+    val projectNotes = _projectNotes.asStateFlow()
 
     init {
         loadInitialData()
@@ -47,14 +52,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun createNewNote(title: String, description: String, projectName: String? = null) {
+    fun createNewNote(title: String, description: String, projectId: String? = null) {
         viewModelScope.launch {
-            val projectId = if (projectName != null) {
-                _uiState.value.projects.find { it.name == projectName }?.id
-            } else {
-                null
-            }
-
             createNoteUseCase(
                 Note(
                     id = "note_${System.currentTimeMillis()}",
@@ -64,6 +63,10 @@ class HomeViewModel @Inject constructor(
                     timestamp = System.currentTimeMillis()
                 )
             )
+
+            projectId?.let {
+                loadProjectNotes(it)
+            }
         }
     }
 
@@ -117,6 +120,14 @@ class HomeViewModel @Inject constructor(
                     createdAt = System.currentTimeMillis() - 7200000
                 )
             )
+        }
+    }
+
+    fun loadProjectNotes(projectId: String) {
+        viewModelScope.launch {
+            getNotesByProjectUseCase(projectId).collect { notes ->
+                _projectNotes.value = notes
+            }
         }
     }
 

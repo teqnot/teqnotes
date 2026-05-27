@@ -87,7 +87,7 @@ fun ProjectCard(
                     )
                 }
                 Icon(
-                    painter = painterResource(id = R.drawable.sv_more_vert),
+                    painter = painterResource(id = R.drawable.sv_folder),
                     contentDescription = "More options",
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier

@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,6 +29,7 @@ import com.example.teqnotes.features.projects.ui.ProjectScreen
 import com.example.teqnotes.features.settings.ui.SettingsScreen
 import com.example.teqnotes.features.teams.ui.TeamsScreen
 import com.example.teqnotes.core.utils.HapticFeedback
+import com.example.teqnotes.features.home.presentation.HomeViewModel
 
 sealed class Screen(val route: String) {
     object Welcome : Screen("welcome")
@@ -122,8 +124,14 @@ fun AppNavGraph(
                     )
                 ) { backStackEntry ->
                     val projectId = backStackEntry.arguments?.getString("projectId") ?: "default"
+
+                    val homeViewModel: HomeViewModel = hiltViewModel()
+                    val projects by homeViewModel.uiState.collectAsState()
+                    val projectName = projects.projects.find { it.id == projectId }?.name ?: "Проект $projectId"
+
                     ProjectScreen(
-                        projectName = "Проект $projectId",
+                        projectId = projectId,
+                        projectName = projectName,
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -138,13 +146,6 @@ fun AppNavGraph(
 
                 composable(Screen.Settings.route) {
                     SettingsScreen()
-                }
-
-                composable(Screen.Project.route) {
-                    ProjectScreen(
-                        projectName = "Мой проект",
-                        onBackClick = { navController.popBackStack() }
-                    )
                 }
             }
 

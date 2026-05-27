@@ -60,7 +60,7 @@ fun CustomDropdownField(
                     expanded = true
                     onFocusedChange(true)
                 }
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -70,7 +70,6 @@ fun CustomDropdownField(
                     MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
-                    .size(24.dp)
                     .padding(end = 16.dp)
             )
 
@@ -99,7 +98,7 @@ fun CustomDropdownField(
 
         if (expanded) {
             Popup(
-                alignment = Alignment.TopStart,
+                alignment = Alignment.BottomStart,
                 offset = dropdownOffset,
                 onDismissRequest = {
                     expanded = false
@@ -116,8 +115,8 @@ fun CustomDropdownField(
                         .onGloballyPositioned { coordinates ->
                             val positionInWindow = coordinates.localToWindow(Offset.Zero)
                             dropdownOffset = IntOffset(
-                                x = (positionInWindow.x + coordinates.size.width - 200).toInt(),
-                                y = positionInWindow.y.toInt()
+                                x = (positionInWindow.x + coordinates.size.width - 300).toInt(),
+                                y = positionInWindow.y.toInt() - 170
                             )
                         }
                 ) {

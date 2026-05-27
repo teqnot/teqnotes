@@ -40,8 +40,10 @@ fun CreatePopup(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     onCreate: (CreationType, String, String, String?) -> Unit,
-    projects: List<String> = emptyList(),
-    friends: List<String> = emptyList()
+    projects: Map<String, String> = emptyMap(),
+    friends: List<String> = emptyList(),
+    defaultProjectId: String? = null,
+    defaultProjectName: String? = null
 ) {
     val animationDuration = 300
 
@@ -140,10 +142,23 @@ fun CreatePopup(
                     var selectedValue by remember { mutableStateOf<String?>(null) }
 
                     if (creationType == CreationType.NOTE) {
-                        var projectSelected by remember { mutableStateOf<String?>("Без проекта") }
+                        var projectSelected by remember {
+                            mutableStateOf<String?>(defaultProjectName ?: "Без проекта")
+                        }
                         var projectFocused by remember { mutableStateOf(false) }
 
-                        val projectOptions = listOf("Без проекта") + projects
+                        val projectOptions = if (projects.isEmpty()) {
+                            listOf("Без проекта")
+                        } else {
+                            listOf("Без проекта") + projects.keys.toList()
+                        }
+
+                        LaunchedEffect(defaultProjectName) {
+                            if (defaultProjectName != null) {
+                                projectSelected = defaultProjectName
+                                selectedValue = defaultProjectId
+                            }
+                        }
 
                         CustomDropdownField(
                             label = "Проект",
@@ -153,7 +168,13 @@ fun CreatePopup(
                             onFocusedChange = { projectFocused = it },
                             onValueSelected = { value ->
                                 projectSelected = value
-                                selectedValue = if (value == "Без проекта") null else value
+
+                                selectedValue =
+                                    if (value == "Без проекта") {
+                                        null
+                                    } else {
+                                        projects[value]
+                                    }
                             },
                             options = projectOptions
                         )
@@ -203,12 +224,14 @@ fun CreatePopup(
                                     shape = RoundedCornerShape(20.dp)
                                 )
                                 .clickable {
-                                    onCreate(
-                                        creationType,
-                                        noteTitle,
-                                        noteDescription,
-                                        selectedValue
-                                    )
+                                    if (noteTitle.isNotBlank() && noteDescription.isNotBlank()) {
+                                        onCreate(
+                                            creationType,
+                                            noteTitle,
+                                            noteDescription,
+                                            selectedValue
+                                        )
+                                    }
                                 },
                             contentAlignment = Alignment.Center
                         ) {

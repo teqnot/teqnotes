@@ -1,4 +1,4 @@
-package com.example.teqnotes.features.di
+package com.example.teqnotes.features.home.di
 
 import com.example.teqnotes.features.home.data.repository.HomeRepositoryImpl
 import com.example.teqnotes.features.home.domain.repository.HomeRepository
