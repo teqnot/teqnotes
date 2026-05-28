@@ -1,4 +1,4 @@
-package com.example.teqnotes.core.ui.components
+package com.example.teqnotes.core.ui.components.popups
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween

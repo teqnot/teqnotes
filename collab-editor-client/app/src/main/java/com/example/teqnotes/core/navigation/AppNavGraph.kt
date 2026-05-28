@@ -18,8 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.example.teqnotes.core.ui.components.BottomBar
-import com.example.teqnotes.core.ui.components.CreateNotePopup
+import com.example.teqnotes.core.ui.components.bars.BottomBar
+import com.example.teqnotes.core.ui.components.popups.CreateNotePopup
 import com.example.teqnotes.features.auth.ui.LoginScreen
 import com.example.teqnotes.features.auth.ui.RegisterScreen
 import com.example.teqnotes.features.auth.ui.WelcomeScreen

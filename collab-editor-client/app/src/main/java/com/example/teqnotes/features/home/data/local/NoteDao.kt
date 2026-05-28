@@ -41,4 +41,7 @@ interface NoteDao {
 
     @Query("UPDATE notes SET isArchived = 1 WHERE id = :id")
     suspend fun archiveNote(id: String)
+
+    @Query("DELETE FROM notes WHERE id = :noteId")
+    suspend fun deleteNoteById(noteId: String)
 }

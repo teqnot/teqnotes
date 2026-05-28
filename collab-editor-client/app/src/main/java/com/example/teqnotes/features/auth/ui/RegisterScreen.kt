@@ -22,7 +22,7 @@ import com.example.teqnotes.R
 import com.example.teqnotes.core.ui.components.CollabButton
 import com.example.teqnotes.core.ui.components.CustomTextField
 import com.example.teqnotes.core.ui.components.TeqnotesLogo
-import com.example.teqnotes.core.ui.components.TopBar
+import com.example.teqnotes.core.ui.components.bars.TopBar
 
 @Composable
 fun RegisterScreen(

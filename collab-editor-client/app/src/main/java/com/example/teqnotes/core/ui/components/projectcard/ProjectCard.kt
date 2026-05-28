@@ -1,4 +1,4 @@
-package com.example.teqnotes.core.ui.components
+package com.example.teqnotes.core.ui.components.projectcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

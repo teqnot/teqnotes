@@ -6,6 +6,7 @@ import com.example.teqnotes.features.home.domain.model.Note
 import com.example.teqnotes.features.home.domain.model.Project
 import com.example.teqnotes.features.home.domain.usecase.CreateNoteUseCase
 import com.example.teqnotes.features.home.domain.usecase.CreateProjectUseCase
+import com.example.teqnotes.features.home.domain.usecase.DeleteNoteUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetIndividualNotesUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetNotesByProjectUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetProjectsUseCase
@@ -21,7 +22,8 @@ class HomeViewModel @Inject constructor(
     private val getProjectsUseCase: GetProjectsUseCase,
     private val getNotesByProjectUseCase: GetNotesByProjectUseCase,
     private val createNoteUseCase: CreateNoteUseCase,
-    private val createProjectUseCase: CreateProjectUseCase
+    private val createProjectUseCase: CreateProjectUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -152,6 +154,12 @@ class HomeViewModel @Inject constructor(
                     createdAt = System.currentTimeMillis()
                 )
             )
+        }
+    }
+
+    fun deleteNote(noteId: String) {
+        viewModelScope.launch {
+            deleteNoteUseCase(noteId)
         }
     }
 }

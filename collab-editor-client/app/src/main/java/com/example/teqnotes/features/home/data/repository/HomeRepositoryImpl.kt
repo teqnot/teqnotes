@@ -132,4 +132,8 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun archiveProject(projectId: String) {
         projectDao.archiveProject(projectId)
     }
+
+    override suspend fun deleteNote(noteId: String) {
+        noteDao.deleteNoteById(noteId)
+    }
 }

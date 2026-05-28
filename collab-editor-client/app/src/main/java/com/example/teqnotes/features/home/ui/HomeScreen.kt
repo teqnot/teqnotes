@@ -15,16 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.teqnotes.R
-import com.example.teqnotes.core.ui.components.CreatePopup
-import com.example.teqnotes.core.ui.components.CreationType
+import com.example.teqnotes.core.ui.components.popups.CreatePopup
+import com.example.teqnotes.core.ui.components.popups.CreationType
 import com.example.teqnotes.core.ui.components.CustomTextField
 import com.example.teqnotes.core.ui.components.notecard.NewNoteCard
 import com.example.teqnotes.core.ui.components.notecard.NoteCard
-import com.example.teqnotes.core.ui.components.ProjectCard
+import com.example.teqnotes.core.ui.components.projectcard.ProjectCard
 import com.example.teqnotes.core.ui.theme.Typography
 import com.example.teqnotes.features.home.presentation.HomeViewModel
 
@@ -88,7 +87,8 @@ fun HomeScreen(
                 NoteCard(
                     title = note.title,
                     subtitle = note.content,
-                    onClick = { onNoteClick(note.id, "__individual__") }
+                    onClick = { onNoteClick(note.id, "__individual__") },
+                    onDelete = { viewModel.deleteNote(note.id) }
                 )
             }
 

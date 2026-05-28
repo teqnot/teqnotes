@@ -1,4 +1,4 @@
-package com.example.teqnotes.core.ui.components
+package com.example.teqnotes.core.ui.components.popups
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teqnotes.core.ui.theme.FiraCode
 import com.example.teqnotes.R
+import com.example.teqnotes.core.ui.components.popups.CustomTextFieldNoBorder
+import com.example.teqnotes.core.ui.components.popups.TextButton
 import com.example.teqnotes.core.ui.theme.activeIndicatorColor
 
 enum class CreationType {
@@ -121,7 +123,7 @@ fun CreatePopup(
                     var creationType by remember { mutableStateOf(CreationType.NOTE) }
                     var typeFocused by remember { mutableStateOf(false) }
 
-                    CustomDropdownField(
+                    _root_ide_package_.com.example.teqnotes.core.ui.components.CustomDropdownField(
                         label = "Заметка / Проект",
                         leadingIcon = R.drawable.sv_list,
                         isFocused = typeFocused,
@@ -160,7 +162,7 @@ fun CreatePopup(
                             }
                         }
 
-                        CustomDropdownField(
+                        _root_ide_package_.com.example.teqnotes.core.ui.components.CustomDropdownField(
                             label = "Проект",
                             leadingIcon = R.drawable.sv_folder,
                             isFocused = projectFocused,
@@ -184,7 +186,7 @@ fun CreatePopup(
 
                         val friendOptions = listOf("Без друзей") + friends
 
-                        CustomDropdownField(
+                        _root_ide_package_.com.example.teqnotes.core.ui.components.CustomDropdownField(
                             label = "Друзья",
                             leadingIcon = R.drawable.sv_person,
                             isFocused = friendFocused,
