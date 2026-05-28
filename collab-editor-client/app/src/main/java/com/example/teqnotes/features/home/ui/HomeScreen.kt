@@ -37,10 +37,20 @@ fun HomeScreen(
     val state = viewModel.uiState.collectAsState()
     var isCreatePopupVisible by remember { mutableStateOf(false) }
 
+    var searchQuery by remember { mutableStateOf("") }
+
     val projectMap = state.value.projects.associate {
         it.name to it.id
     }
     val friendNames = listOf("Иван", "Мария", "Алексей") // TODO: handle friends
+
+    val filteredNotes = state.value.individualNotes.filter { note ->
+        note.title.contains(searchQuery, ignoreCase = true)
+    }
+
+    val filteredProjects = state.value.projects.filter { project ->
+        project.name.contains(searchQuery, ignoreCase = true)
+    }
 
     Column(
         modifier = Modifier
@@ -57,8 +67,8 @@ fun HomeScreen(
         )
 
         CustomTextField(
-            value = "",
-            onValueChange = { /* TODO: handle search */ },
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
             leadingIcon = R.drawable.sv_search,
             placeholder = "Поиск",
             modifier = Modifier
@@ -74,18 +84,18 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.value.individualNotes) { note ->
+            items(filteredNotes) { note ->
                 NoteCard(
                     title = note.title,
-                    subtitle = "Lorem ipsum",
+                    subtitle = note.content,
                     onClick = { onNoteClick(note.id, "__individual__") }
                 )
             }
 
-            items(state.value.projects) { project ->
+            items(filteredProjects) { project ->
                 ProjectCard(
                     title = project.name,
-                    subtitle = "Lorem ipsum",
+                    subtitle = project.description,
                     onClick = {
                         onProjectClick(project.id)
                     }

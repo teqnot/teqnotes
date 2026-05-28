@@ -2,7 +2,7 @@ package com.example.teqnotes.di
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.teqnotes.features.friends.data.FriendEntity
+import com.example.teqnotes.features.friends.data.local.FriendEntity
 import com.example.teqnotes.features.friends.data.local.FriendDao
 import com.example.teqnotes.features.home.data.local.NoteDao
 import com.example.teqnotes.features.home.data.local.NoteEntity

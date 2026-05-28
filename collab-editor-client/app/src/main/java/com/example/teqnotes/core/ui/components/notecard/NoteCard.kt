@@ -33,6 +33,12 @@ fun NoteCard(
     subtitle: String,
     onClick: () -> Unit
 ) {
+    val formattedSubtitle = if (subtitle.length > 8) {
+        "${subtitle.take(8)}..."
+    } else {
+        subtitle
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,21 +83,21 @@ fun NoteCard(
                     )
 
                     Text(
-                        text = subtitle,
+                        text = formattedSubtitle,
                         style = TextStyle(
                             fontFamily = FiraCode,
                             fontWeight = FontWeight.Normal,
                             fontSize = 14.sp
                         ),
-                        color = MaterialTheme.colorScheme.secondary
+                        color = MaterialTheme.colorScheme.secondary,
+                        maxLines = 1
                     )
                 }
                 Icon(
                     painter = painterResource(id = R.drawable.sv_more_vert),
                     contentDescription = "More options",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(24.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }

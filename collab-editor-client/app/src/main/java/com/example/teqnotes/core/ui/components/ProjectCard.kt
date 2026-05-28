@@ -33,6 +33,12 @@ fun ProjectCard(
     subtitle: String,
     onClick: () -> Unit
 ) {
+    val formattedSubtitle = if (subtitle.length > 8) {
+        "${subtitle.take(8)}..."
+    } else {
+        subtitle
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +83,7 @@ fun ProjectCard(
                     )
 
                     Text(
-                        text = subtitle,
+                        text = formattedSubtitle,
                         style = TextStyle(
                             fontFamily = FiraCode,
                             fontWeight = FontWeight.Normal,

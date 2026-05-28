@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.navigation.compose.rememberNavController
 import com.example.teqnotes.core.navigation.AppNavGraph
 import com.example.teqnotes.core.navigation.Screen
@@ -16,14 +19,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TeqnotesTheme {
+            val systemIsDark = isSystemInDarkTheme()
+
+            var isDarkTheme by rememberSaveable { mutableStateOf(systemIsDark) }
+
+            TeqnotesTheme(darkTheme = isDarkTheme) {
                 val navController = rememberNavController()
 
                 val startDestination = determineStartDestination()
 
                 AppNavGraph(
                     navController = navController,
-                    startDestination = startDestination
+                    startDestination = startDestination,
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = { isDarkTheme = !isDarkTheme }
                 )
             }
         }

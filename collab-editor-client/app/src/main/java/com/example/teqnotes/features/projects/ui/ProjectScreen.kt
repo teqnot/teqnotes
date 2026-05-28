@@ -33,6 +33,8 @@ fun ProjectScreen(
     val projectNotes by viewModel.projectNotes.collectAsState()
     var isCreatePopupVisible by remember { mutableStateOf(false) }
 
+    var searchQuery by remember { mutableStateOf("") }
+
     val projects by viewModel.uiState.collectAsState()
     val projectMap = projects.projects.associate {
         it.name to it.id
@@ -43,6 +45,10 @@ fun ProjectScreen(
 
     LaunchedEffect(projectId) {
         viewModel.loadProjectNotes(projectId)
+    }
+
+    val filteredProjectNotes = projectNotes.filter { note ->
+        note.title.contains(searchQuery, ignoreCase = true)
     }
 
     Column(
@@ -60,8 +66,8 @@ fun ProjectScreen(
         )
 
         CustomTextField(
-            value = "",
-            onValueChange = { /* TODO: handle search */ },
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
             leadingIcon = R.drawable.sv_search,
             placeholder = "Поиск",
             modifier = Modifier
@@ -77,10 +83,10 @@ fun ProjectScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(projectNotes) { note ->
+            items(filteredProjectNotes) { note ->
                 NoteCard(
                     title = note.title,
-                    subtitle = "Lorem ipsum",
+                    subtitle = note.content,
                     onClick = { onNoteClick(note.id, currentProjectName) }
                 )
             }

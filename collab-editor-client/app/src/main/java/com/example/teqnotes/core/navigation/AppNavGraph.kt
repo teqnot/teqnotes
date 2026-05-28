@@ -50,7 +50,9 @@ sealed class Screen(val route: String) {
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.Home.route
+    startDestination: String = Screen.Home.route,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit
 ) {
     val view = LocalView.current
 
@@ -188,7 +190,15 @@ fun AppNavGraph(
                 }
 
                 composable(Screen.Settings.route) {
-                    SettingsScreen()
+                    SettingsScreen(
+                        onAccountClick = { /* TODO: navigate to account */ },
+                        onSecurityClick = { /* TODO: navigate to security */ },
+                        onNotificationsClick = { /* TODO: navigate to notifications settings */ },
+                        onFaqClick = { /* TODO: navigate to FAQ */ },
+                        onDeleteAccountClick = { /* TODO: show delete confirmation */ },
+                        isDarkTheme = isDarkTheme,
+                        onThemeToggle = onToggleTheme
+                    )
                 }
             }
 

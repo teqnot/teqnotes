@@ -57,18 +57,26 @@ fun CustomTextField(
                 contentDescription = null
             )
         },
-        trailingIcon = if (isPassword) {
-            {
+        trailingIcon = {
+            if (isPassword) {
                 Icon(
-                    painterResource(
+                    painter = painterResource(
                         id = if (isPasswordVisible) R.drawable.sv_eye_on else R.drawable.sv_eye_off
                     ),
                     contentDescription = "Toggle password visibility",
+                    tint = iconColor,
                     modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible }
                 )
+            } else if (isFilled) {
+                Icon(
+                    painter = painterResource(id = R.drawable.sv_close),
+                    contentDescription = "Clear text",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable {
+                        onValueChange("")
+                    }
+                )
             }
-        } else {
-            null
         },
         placeholder = {
             Text(

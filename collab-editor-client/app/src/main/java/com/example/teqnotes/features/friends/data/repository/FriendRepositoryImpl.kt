@@ -1,6 +1,6 @@
 package com.example.teqnotes.features.friends.data.repository
 
-import com.example.teqnotes.features.friends.data.FriendEntity
+import com.example.teqnotes.features.friends.data.local.FriendEntity
 import com.example.teqnotes.features.friends.data.local.FriendDao
 import com.example.teqnotes.features.friends.domain.model.Friend
 import com.example.teqnotes.features.friends.domain.repository.FriendRepository

@@ -1,4 +1,4 @@
-package com.example.teqnotes.features.friends.data
+package com.example.teqnotes.features.friends.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
