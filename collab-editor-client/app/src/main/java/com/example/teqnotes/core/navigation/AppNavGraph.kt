@@ -31,6 +31,7 @@ import com.example.teqnotes.features.friends.ui.FriendsScreen
 import com.example.teqnotes.core.utils.HapticFeedback
 import com.example.teqnotes.features.home.presentation.HomeViewModel
 import com.example.teqnotes.features.note.ui.NoteEditorScreen
+import com.example.teqnotes.features.settings.ui.FaqScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -45,6 +46,7 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object Project : Screen("project")
     object Note: Screen("note")
+    object Faq : Screen("faq")
 }
 
 @Composable
@@ -194,10 +196,16 @@ fun AppNavGraph(
                         onAccountClick = { /* TODO: navigate to account */ },
                         onSecurityClick = { /* TODO: navigate to security */ },
                         onNotificationsClick = { /* TODO: navigate to notifications settings */ },
-                        onFaqClick = { /* TODO: navigate to FAQ */ },
+                        onFaqClick = { navController.navigate(Screen.Faq.route) },
                         onDeleteAccountClick = { /* TODO: show delete confirmation */ },
                         isDarkTheme = isDarkTheme,
                         onThemeToggle = onToggleTheme
+                    )
+                }
+
+                composable(Screen.Faq.route) {
+                    FaqScreen(
+                        onBackClick = { navController.popBackStack() }
                     )
                 }
             }
