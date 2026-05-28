@@ -31,6 +31,7 @@ import com.example.teqnotes.features.home.presentation.HomeViewModel
 @Composable
 fun HomeScreen(
     onProjectClick: (String) -> Unit,
+    onNoteClick: (String, String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState.collectAsState()
@@ -77,7 +78,7 @@ fun HomeScreen(
                 NoteCard(
                     title = note.title,
                     subtitle = "Lorem ipsum",
-                    onClick = { /* TODO: open note */ }
+                    onClick = { onNoteClick(note.id, "__individual__") }
                 )
             }
 
@@ -128,10 +129,4 @@ fun HomeScreen(
             friends = friendNames
         )
     }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(onProjectClick = { /* preview */})
 }

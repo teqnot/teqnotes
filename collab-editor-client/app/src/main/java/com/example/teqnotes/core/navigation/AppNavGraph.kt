@@ -30,6 +30,10 @@ import com.example.teqnotes.features.settings.ui.SettingsScreen
 import com.example.teqnotes.features.teams.ui.TeamsScreen
 import com.example.teqnotes.core.utils.HapticFeedback
 import com.example.teqnotes.features.home.presentation.HomeViewModel
+import com.example.teqnotes.features.note.ui.NoteEditorScreen
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 sealed class Screen(val route: String) {
     object Welcome : Screen("welcome")
@@ -40,6 +44,7 @@ sealed class Screen(val route: String) {
     object Notifications : Screen("notifications")
     object Settings : Screen("settings")
     object Project : Screen("project")
+    object Note: Screen("note")
 }
 
 @Composable
@@ -113,6 +118,10 @@ fun AppNavGraph(
                     HomeScreen(
                         onProjectClick = { projectId ->
                             navController.navigate("${Screen.Project.route}/$projectId")
+                        },
+                        onNoteClick = { noteId, projectName ->
+                            val encodedProjectName = URLEncoder.encode(projectName, StandardCharsets.UTF_8.toString())
+                            navController.navigate("${Screen.Note.route}/$noteId/$encodedProjectName")
                         }
                     )
                 }
@@ -127,10 +136,44 @@ fun AppNavGraph(
 
                     val homeViewModel: HomeViewModel = hiltViewModel()
                     val projects by homeViewModel.uiState.collectAsState()
-                    val projectName = projects.projects.find { it.id == projectId }?.name ?: "Проект $projectId"
+                    val projectName = projects.projects.find { it.id == projectId }?.name ?: projectId
 
                     ProjectScreen(
                         projectId = projectId,
+                        projectName = projectName,
+                        onBackClick = { navController.popBackStack() },
+                        onNoteClick = { noteId, pName ->
+                            val encodedProjectName = URLEncoder.encode(pName, StandardCharsets.UTF_8.toString())
+                            navController.navigate("${Screen.Note.route}/$noteId/$encodedProjectName")
+                        }
+                    )
+                }
+
+                composable(
+                    route = "${Screen.Note.route}/{noteId}/{projectName}",
+                    arguments = listOf(
+                        navArgument("noteId") { type = NavType.StringType },
+                        navArgument("projectName") {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        }
+                    )
+                ) { backStackEntry ->
+                    val noteId = backStackEntry.arguments?.getString("noteId") ?: ""
+                    val rawProjectName = backStackEntry.arguments?.getString("projectName") ?: ""
+
+                    val projectName = try {
+                        if (rawProjectName.isNotEmpty() && rawProjectName != "__individual__") {
+                            URLDecoder.decode(rawProjectName, StandardCharsets.UTF_8.toString())
+                        } else {
+                            ""
+                        }
+                    } catch (e: Exception) {
+                        rawProjectName
+                    }
+
+                    NoteEditorScreen(
+                        noteId = noteId,
                         projectName = projectName,
                         onBackClick = { navController.popBackStack() }
                     )
@@ -158,7 +201,6 @@ fun AppNavGraph(
                 onCreate = {
                     isPopupVisible = false
                     currentBottomRoute = previousRoute
-                    // TODO: handle note creation
                 }
             )
         }

@@ -27,6 +27,7 @@ fun ProjectScreen(
     projectId: String,
     projectName: String,
     onBackClick: () -> Unit,
+    onNoteClick: (String, String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val projectNotes by viewModel.projectNotes.collectAsState()
@@ -80,7 +81,7 @@ fun ProjectScreen(
                 NoteCard(
                     title = note.title,
                     subtitle = "Lorem ipsum",
-                    onClick = { /* TODO: open note */ }
+                    onClick = { onNoteClick(note.id, currentProjectName) }
                 )
             }
 

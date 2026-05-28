@@ -60,6 +60,21 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getNoteById(noteId: String): Flow<Note?> {
+        return noteDao.getNoteById(noteId).map { entity ->
+            entity?.let {
+                Note(
+                    id = it.id,
+                    title = it.title,
+                    content = it.content,
+                    projectId = it.projectId,
+                    timestamp = it.timestamp,
+                    isArchived = it.isArchived
+                )
+            }
+        }
+    }
+
     override suspend fun createNote(note: Note) {
         noteDao.insertNote(
             NoteEntity(

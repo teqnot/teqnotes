@@ -9,6 +9,7 @@ interface HomeRepository {
     fun getIndividualNotes(): Flow<List<Note>>
     fun getProjects(): Flow<List<Project>>
     fun getNotesByProject(projectId: String): Flow<List<Note>>
+    fun getNoteById(noteId: String): Flow<Note?>
 
     suspend fun createNote(note: Note)
     suspend fun createProject(project: Project)

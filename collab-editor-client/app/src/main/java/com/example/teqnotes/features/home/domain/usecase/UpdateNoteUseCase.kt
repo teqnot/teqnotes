@@ -1,0 +1,13 @@
+package com.example.teqnotes.features.home.domain.usecase
+
+import com.example.teqnotes.features.home.domain.model.Note
+import com.example.teqnotes.features.home.domain.repository.HomeRepository
+import javax.inject.Inject
+
+class UpdateNoteUseCase @Inject constructor(
+    private val repository: HomeRepository
+) {
+    suspend operator fun invoke(note: Note) {
+        repository.updateNote(note)
+    }
+}
