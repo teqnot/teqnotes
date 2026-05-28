@@ -1,15 +1,11 @@
 package com.example.config
 
-import com.example.model.Blocks
-import com.example.model.Friendship
 import com.example.model.Friendships
 import com.example.model.NoteAccesses
 import com.example.model.Notes
 import com.example.model.ProjectMembers
 import com.example.model.Projects
 import com.example.model.RefreshTokens
-import com.example.model.TeamMembers
-import com.example.model.Teams
 import com.example.model.Users
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -45,14 +41,11 @@ object DatabaseConfig {
             SchemaUtils.createMissingTablesAndColumns(
                 Users,
                 RefreshTokens,
-                Teams,
                 Friendships,
                 Projects,
                 ProjectMembers,
                 Notes,
-                NoteAccesses,
-                Blocks,
-                TeamMembers
+                NoteAccesses
             )
 
             println("DB Initialized successfully")

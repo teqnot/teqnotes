@@ -1,42 +1,37 @@
 package com.example.model
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.javatime.CurrentDateTime
 import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.datetime
 
-private val gson = Gson()
-private val mapType = object : TypeToken<Map<String, Int>>() {}.type
-
 object Notes : IntIdTable() {
     val title = varchar("title", 255)
-    val ownerId = reference("owner_id", Users)
+    val content = text("content").nullable()
+
+    val ownerId = reference("owner_id", Users, onDelete = ReferenceOption.CASCADE)
     val projectId = reference("project_id", Projects, onDelete = ReferenceOption.SET_NULL).nullable()
-    val teamId = reference("team_id", Teams, onDelete = ReferenceOption.SET_NULL).nullable()
-    val versionVectorJson = text("version_vector")
-    val createdAt = datetime("created_at").defaultExpression(CurrentTimestamp())
-    val updatedAt = datetime("updated_at").defaultExpression(CurrentTimestamp())
+
+    val versionVectorJson = text("version_vector").nullable()
+
+    val createdAt = datetime("created_at").defaultExpression(CurrentDateTime)
+    val updatedAt = datetime("updated_at").defaultExpression(CurrentDateTime)
 }
 
-class Note(id: org.jetbrains.exposed.dao.id.EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<Note> (Notes)
+class Note(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<Note>(Notes)
 
     var title by Notes.title
-    var ownerId by Users.id
-    var projectId by Projects.id
-    var teamId by Teams.id
+    var content by Notes.content
 
-    private var _versionVectorJson by Notes.versionVectorJson
-    var versionVector: Map<String, Int>
-        get() = gson.fromJson(_versionVectorJson, mapType) ?: emptyMap()
-        set(value) {
-            _versionVectorJson = gson.toJson(value)
-        }
+    var owner by User referencedOn Notes.ownerId
+    var project by Project optionalReferencedOn Notes.projectId
 
+    var versionVectorJson by Notes.versionVectorJson
     var createdAt by Notes.createdAt
     var updatedAt by Notes.updatedAt
 }

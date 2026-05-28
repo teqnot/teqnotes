@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktor)
-    kotlin("plugin.serialization") version "1.9.20"
 }
 
 tasks.test {
@@ -19,7 +19,7 @@ application {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -38,11 +38,10 @@ dependencies {
 
     implementation("org.mindrot:jbcrypt:0.4")
 
-    implementation("org.jetbrains.exposed:exposed-java-time:0.41.1")
-
-    implementation("org.jetbrains.exposed:exposed-core:0.41.1")
-    implementation("org.jetbrains.exposed:exposed-dao:0.41.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.61.0")
+    implementation("org.jetbrains.exposed:exposed-dao:0.61.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.61.0")
     implementation("org.postgresql:postgresql:42.7.7")
     implementation("com.google.code.gson:gson:2.8.9")
 

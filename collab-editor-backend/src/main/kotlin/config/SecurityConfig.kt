@@ -21,7 +21,7 @@ object SecurityConfig {
 
     fun configureJWT(application: Application) {
         application.install(Authentication) {
-            jwt {
+            jwt("auth-jwt") {
                 realm = "collab-editor"
                 verifier(
                     JWT
