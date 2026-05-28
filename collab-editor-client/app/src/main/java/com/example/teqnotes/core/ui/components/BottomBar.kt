@@ -25,7 +25,7 @@ enum class BottomNavItem(
     val title: String
 ) {
     HOME("home", R.drawable.sv_home, "Заметки"),
-    TEAMS("teams", R.drawable.sv_groups, "Команды"),
+    FRIENDS("friends", R.drawable.sv_groups, "Друзья"),
     NEW_NOTE("new_note", R.drawable.sv_new_note, "Новая заметка"),
     NOTIFICATIONS("notifications", R.drawable.sv_notifications, "Уведомления"),
     SETTINGS("settings", R.drawable.sv_settings, "Настройки")

@@ -1,4 +1,4 @@
-package com.example.teqnotes.core.ui.components.teamcard
+package com.example.teqnotes.core.ui.components.friendcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,8 +25,8 @@ import com.example.teqnotes.R
 import com.example.teqnotes.core.ui.theme.FiraCode
 
 @Composable
-fun TeamCard(
-    teamName: String,
+fun FriendCard(
+    friendName: String,
     onClick: () -> Unit
 ) {
     Box(
@@ -55,7 +55,7 @@ fun TeamCard(
                 )
 
                 Text(
-                    text = teamName,
+                    text = friendName,
                     style = TextStyle(
                         fontFamily = FiraCode,
                         fontWeight = FontWeight.Medium,
@@ -86,5 +86,5 @@ fun TeamCard(
 @Preview
 @Composable
 fun PreviewTeamCard() {
-    TeamCard(teamName = "Lorem Ipsum", onClick = { /* preview */ })
+    FriendCard(friendName = "Lorem Ipsum", onClick = { /* preview */ })
 }

@@ -2,6 +2,7 @@ package com.example.teqnotes.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.teqnotes.features.friends.data.local.FriendDao
 import com.example.teqnotes.features.home.data.local.NoteDao
 import com.example.teqnotes.features.home.data.local.ProjectDao
 import com.example.teqnotes.features.notifications.data.local.NotificationDao
@@ -46,5 +47,11 @@ object DatabaseModule {
     @Singleton
     fun provideProjectDao(database: AppDatabase): ProjectDao {
         return database.projectDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFriendDao(database: AppDatabase): FriendDao {
+        return database.friendDao()
     }
 }

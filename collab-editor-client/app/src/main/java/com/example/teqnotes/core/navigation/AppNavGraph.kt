@@ -27,7 +27,7 @@ import com.example.teqnotes.features.home.ui.HomeScreen
 import com.example.teqnotes.features.notifications.presentation.NotificationsScreen
 import com.example.teqnotes.features.projects.ui.ProjectScreen
 import com.example.teqnotes.features.settings.ui.SettingsScreen
-import com.example.teqnotes.features.teams.ui.TeamsScreen
+import com.example.teqnotes.features.friends.ui.FriendsScreen
 import com.example.teqnotes.core.utils.HapticFeedback
 import com.example.teqnotes.features.home.presentation.HomeViewModel
 import com.example.teqnotes.features.note.ui.NoteEditorScreen
@@ -40,7 +40,7 @@ sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Register : Screen("register")
     object Home : Screen("home")
-    object Teams : Screen("teams")
+    object Friends : Screen("friends")
     object Notifications : Screen("notifications")
     object Settings : Screen("settings")
     object Project : Screen("project")
@@ -56,7 +56,7 @@ fun AppNavGraph(
 
     val showBottomNav = listOf(
         Screen.Home.route,
-        Screen.Teams.route,
+        Screen.Friends.route,
         Screen.Notifications.route,
         Screen.Settings.route
     )
@@ -179,8 +179,8 @@ fun AppNavGraph(
                     )
                 }
 
-                composable(Screen.Teams.route) {
-                    TeamsScreen()
+                composable(Screen.Friends.route) {
+                    FriendsScreen()
                 }
 
                 composable(Screen.Notifications.route) {
