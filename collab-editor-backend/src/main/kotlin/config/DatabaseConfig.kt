@@ -1,12 +1,12 @@
 package com.example.config
 
-import com.example.model.Friendships
-import com.example.model.NoteAccesses
-import com.example.model.Notes
-import com.example.model.ProjectMembers
-import com.example.model.Projects
-import com.example.model.RefreshTokens
-import com.example.model.Users
+import com.example.features.friends.data.local.Friendships
+import com.example.features.notes.data.local.NoteAccesses
+import com.example.features.notes.data.local.Notes
+import com.example.features.notes.data.local.ProjectMembers
+import com.example.features.notes.data.local.Projects
+import com.example.features.auth.data.model.RefreshTokens
+import com.example.features.auth.data.model.Users
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -14,16 +14,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object DatabaseConfig {
 
     fun init() {
-        val dbUrl = System.getenv("DATABASE_URL")
-            ?: "jdbc:postgresql://localhost:5432/editor_db"
+        val dbUrl = System.getProperty("DATABASE_URL")
+            ?: System.getenv("DATABASE_URL")
+            ?: "jdbc:postgresql://localhost:5433/editor_db"
 
-        val dbUser = System.getenv("DATABASE_USER")
+        val dbUser = System.getProperty("DATABASE_USER")
+            ?: System.getenv("DATABASE_USER")
             ?: "editor_user"
 
-        val dbPassword = System.getenv("DATABASE_PASSWORD")
+        val dbPassword = System.getProperty("DATABASE_PASSWORD")
+            ?: System.getenv("DATABASE_PASSWORD")
             ?: "editor_password"
 
-        val dbDriver = System.getenv("DATABASE_DRIVER")
+        val dbDriver = System.getProperty("DATABASE_DRIVER")
+            ?: System.getenv("DATABASE_DRIVER")
             ?: "org.postgresql.Driver"
 
         println("Connecting to database: $dbUrl")
@@ -49,7 +53,6 @@ object DatabaseConfig {
             )
 
             println("DB Initialized successfully")
-            println("Tables created: users, teams, projects, notes, blocks, friendships, etc.")
         }
     }
 }

@@ -50,6 +50,17 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+
+    testImplementation("org.testcontainers:testcontainers-postgresql:2.0.2")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter:2.0.2")
+
+    testImplementation("com.github.docker-java:docker-java-api:3.4.0")
+    testImplementation("com.github.docker-java:docker-java-transport-httpclient5:3.4.0")
+
+    testImplementation("io.ktor:ktor-client-content-negotiation-jvm:2.3.7")
+    testImplementation("io.ktor:ktor-client-cio-jvm:2.3.7")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
