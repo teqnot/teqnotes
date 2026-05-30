@@ -7,9 +7,9 @@ import com.example.teqnotes.features.home.data.local.ProjectEntity
 import com.example.teqnotes.features.home.domain.model.Note
 import com.example.teqnotes.features.home.domain.model.Project
 import com.example.teqnotes.features.home.domain.repository.HomeRepository
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
     private val noteDao: NoteDao,

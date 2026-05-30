@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,18 +28,23 @@ fun CollabButton(
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     borderWidth: Float = 0f,
     borderColor: Color = MaterialTheme.colorScheme.surface,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .alpha(if (enabled) 1f else 0.5f)
             .background(backgroundColor, RoundedCornerShape(20.dp))
             .border(
                 width = borderWidth.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(20.dp)
             )
-            .clickable(onClick = onClick),
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(

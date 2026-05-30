@@ -27,7 +27,6 @@ object DatabaseModule {
             AppDatabase::class.java,
             "teq_notes_database"
         )
-            .fallbackToDestructiveMigration(false)
             .build()
     }
 

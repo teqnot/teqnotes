@@ -32,7 +32,8 @@ fun CustomTextField(
     placeholder: String,
     isPassword: Boolean = false,
     modifier: Modifier = Modifier,
-    isError: Boolean = false
+    isError: Boolean = false,
+    enabled: Boolean = true
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
 
@@ -51,6 +52,7 @@ fun CustomTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
+        enabled = enabled,
         leadingIcon = {
             Icon(
                 painterResource(id = leadingIcon),

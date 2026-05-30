@@ -54,7 +54,9 @@ fun AppNavGraph(
     navController: NavHostController,
     startDestination: String = Screen.Home.route,
     isDarkTheme: Boolean,
-    onToggleTheme: () -> Unit
+    onToggleTheme: () -> Unit,
+    onAuthSuccess: () -> Unit = {},
+    onLogout: () -> Unit = {}
 ) {
     val view = LocalView.current
 
@@ -107,14 +109,27 @@ fun AppNavGraph(
                 composable(Screen.Login.route) {
                     LoginScreen(
                         onBackClick = { navController.popBackStack() },
-                        onLoginClick = { /* TODO */ }
+                        onLoginSuccess = {
+                            onAuthSuccess()
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Welcome.route) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
                     )
                 }
+
 
                 composable(Screen.Register.route) {
                     RegisterScreen(
                         onBackClick = { navController.popBackStack() },
-                        onRegisterClick = { /* TODO */ }
+                        onRegisterSuccess = {
+                            onAuthSuccess()
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Welcome.route) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
                     )
                 }
 
