@@ -39,7 +39,7 @@ fun Route.authRouting(
                         accessToken = accessToken,
                         refreshToken = refreshToken,
                         user = UserInfo(
-                            id = user.id,       // ✅ UserData.id уже Int
+                            id = user.id,
                             email = user.email,
                             name = user.name
                         )

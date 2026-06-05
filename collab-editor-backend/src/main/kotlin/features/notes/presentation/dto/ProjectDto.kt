@@ -15,6 +15,12 @@ data class UpdateProjectRequest(
 )
 
 @Serializable
+data class AddMemberRequest(
+    val email: String,
+    val role: String
+)
+
+@Serializable
 data class ProjectResponse(
     val id: Int,
     val name: String,

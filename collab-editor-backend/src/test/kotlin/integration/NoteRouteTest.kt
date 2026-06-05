@@ -242,7 +242,6 @@ class NoteRouteTest : IntegrationTestBase() {
 
             val noteId = client.createNote(tokens.owner, "To Delete", "Content")
 
-            // Удаляем
             val deleteResponse = client.delete("/notes/$noteId") { auth(tokens.owner) }
             assertEquals(HttpStatusCode.NoContent, deleteResponse.status)
 
@@ -289,7 +288,7 @@ class NoteRouteTest : IntegrationTestBase() {
     }
 
     @Test
-    fun `complex scenari - project VIEWER + individual READ_WRITE = project wins`() = runTest {
+    fun `complex scenario - project VIEWER + individual READ_WRITE = project wins`() = runTest {
         testApplication {
             val (client, tokens) = setupTestEnvironment()
 

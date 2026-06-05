@@ -16,6 +16,12 @@ data class UpdateNoteRequest(
 )
 
 @Serializable
+data class ShareNoteRequest(
+    val targetUserId: Int,
+    val role: String
+)
+
+@Serializable
 data class NoteResponse(
     val id: Int,
     val title: String,
