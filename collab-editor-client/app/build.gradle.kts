@@ -31,7 +31,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://localhost:8080\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.50.245:8080\"")
         }
         release {
             buildConfigField("String", "BASE_URL", "\"https://api.teqnotes.com\"")

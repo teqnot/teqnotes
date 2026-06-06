@@ -47,7 +47,7 @@ class AuthViewModel @Inject constructor(
                 .onSuccess { user -> _uiState.value = AuthUiState.Success(user) }
                 .onFailure {
                     error -> _uiState.value = AuthUiState.Error(error.message ?: "Registration failed")
-                    Log.e("MY_DEBUG", "❌ Ошибка регистрации: ${error.message}", error)
+                    Log.e("MY_DEBUG", "Ошибка регистрации: ${error.message}", error)
                 }
         }
     }

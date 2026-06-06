@@ -212,6 +212,7 @@ fun AppNavGraph(
                         onSecurityClick = { /* TODO: navigate to security */ },
                         onNotificationsClick = { /* TODO: navigate to notifications settings */ },
                         onFaqClick = { navController.navigate(Screen.Faq.route) },
+                        onLogoutClick = { onLogout() },
                         onDeleteAccountClick = { /* TODO: show delete confirmation */ },
                         isDarkTheme = isDarkTheme,
                         onThemeToggle = onToggleTheme

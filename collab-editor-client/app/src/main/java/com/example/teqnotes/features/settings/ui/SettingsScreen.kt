@@ -24,6 +24,7 @@ fun SettingsScreen(
     onSecurityClick: () -> Unit,
     onNotificationsClick: () -> Unit,
     onFaqClick: () -> Unit,
+    onLogoutClick: () -> Unit,
     onDeleteAccountClick: () -> Unit,
     isDarkTheme: Boolean,
     onThemeToggle: () -> Unit
@@ -62,6 +63,7 @@ fun SettingsScreen(
 
         SupportCard(
             onFaqClick = onFaqClick,
+            onLogoutClick = onLogoutClick,
             onDeleteAccountClick = onDeleteAccountClick
         )
     }

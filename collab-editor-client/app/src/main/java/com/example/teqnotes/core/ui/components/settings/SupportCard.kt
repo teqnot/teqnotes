@@ -15,6 +15,7 @@ import com.example.teqnotes.R
 @Composable
 fun SupportCard(
     onFaqClick: () -> Unit,
+    onLogoutClick: () -> Unit,
     onDeleteAccountClick: () -> Unit
 ) {
     androidx.compose.foundation.layout.Box(
@@ -30,6 +31,24 @@ fun SupportCard(
                 leadingIcon = R.drawable.sv_question,
                 title = "FAQ",
                 onClick = onFaqClick
+            )
+
+            SettingsDivider()
+
+            SettingItem(
+                leadingIcon = R.drawable.sv_person,
+                title = "Выйти",
+                onClick = onLogoutClick,
+                iconTint = MaterialTheme.colorScheme.error,
+                titleColor = MaterialTheme.colorScheme.error,
+                trailingContent = {
+                    androidx.compose.material3.Icon(
+                        painter = painterResource(id = R.drawable.sv_chevron_forward),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             )
 
             SettingsDivider()

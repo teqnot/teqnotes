@@ -15,7 +15,5 @@ interface HomeRepository {
     suspend fun createProject(project: Project)
     suspend fun updateNote(note: Note)
     suspend fun updateProject(project: Project)
-    suspend fun archiveNote(noteId: String)
-    suspend fun archiveProject(projectId: String)
     suspend fun deleteNote(noteId: String)
 }

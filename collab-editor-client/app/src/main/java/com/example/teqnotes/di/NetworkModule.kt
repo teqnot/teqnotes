@@ -5,6 +5,10 @@ import com.example.teqnotes.core.network.AuthInterceptor
 import com.example.teqnotes.core.network.HttpClientFactory
 import com.example.teqnotes.core.storage.TokenStorage
 import com.example.teqnotes.features.auth.data.remote.AuthApi
+import com.example.teqnotes.features.home.data.remote.NoteApi
+import com.example.teqnotes.features.home.data.remote.NoteApiImpl
+import com.example.teqnotes.features.home.data.remote.ProjectApi
+import com.example.teqnotes.features.home.data.remote.ProjectApiImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +33,10 @@ object NetworkModule {
     fun provideAuthApi(httpClient: HttpClient): AuthApi {
         return AuthApi(httpClient)
     }
+
+    @Provides
+    fun provideNoteApi(httpClient: HttpClient): NoteApi = NoteApiImpl(httpClient)
+
+    @Provides
+    fun provideProjectApi(httpClient: HttpClient): ProjectApi = ProjectApiImpl(httpClient)
 }

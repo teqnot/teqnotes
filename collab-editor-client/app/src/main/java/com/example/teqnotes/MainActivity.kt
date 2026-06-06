@@ -9,12 +9,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.teqnotes.core.navigation.AppNavGraph
 import com.example.teqnotes.core.navigation.Screen
 import com.example.teqnotes.core.storage.TokenStorage
 import com.example.teqnotes.core.ui.theme.TeqnotesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,6 +25,17 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var tokenStorage: TokenStorage
+
+    private fun handleLogout(navController: NavHostController) {
+        lifecycleScope.launch {
+            tokenStorage.clear()
+        }
+
+        navController.navigate(Screen.Welcome.route) {
+            popUpTo(0) { inclusive = true }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -58,24 +72,9 @@ class MainActivity : ComponentActivity() {
                     onToggleTheme = { isDarkTheme = !isDarkTheme },
                     onAuthSuccess = {
                     },
-                    onLogout = {
-                        navController.navigate(Screen.Welcome.route) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
+                    onLogout = { handleLogout(navController) }
                 )
             }
-        }
-    }
-
-    private fun determineStartDestination(): String {
-        // TODO: handle auth
-        val hasActiveSession = true
-
-        return if (hasActiveSession) {
-            Screen.Home.route
-        } else {
-            Screen.Welcome.route
         }
     }
 }
