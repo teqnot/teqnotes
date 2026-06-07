@@ -43,7 +43,7 @@ fun ProjectScreen(
     val currentProjectName = currentProject?.name ?: projectName
 
     LaunchedEffect(projectId) {
-        viewModel.loadProjectNotes(projectId)
+        viewModel.refreshProjectNotes(projectId)
     }
 
     val filteredProjectNotes = projectNotes.filter { note ->

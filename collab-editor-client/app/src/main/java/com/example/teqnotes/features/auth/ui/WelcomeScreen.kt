@@ -66,9 +66,9 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. " +
-                        "Sit amet consectetur adipiscing elit quisque faucibus ex. " +
-                        "Adipiscing elit quisque faucibus ex sapien vitae pellentesque.",
+                text = "Простое приложение для совместных заметок. " +
+                        "Создавайте проекты, приглашайте участников, гибко настраивайте права доступа. " +
+                        "Синхронизация в реальном времени и минималистичный интерфейс - всё, что нужно для командной работы.",
                 style = Typography.bodyLarge.copy(
                     lineHeight = 24.sp
                 ),

@@ -47,6 +47,10 @@ fun NotificationsScreen(
     val hasFriendRequests = friendRequests.isNotEmpty()
     val hasRegularNotifications = filteredNotifications.isNotEmpty()
 
+    LaunchedEffect(true) {
+        viewModel.refresh()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

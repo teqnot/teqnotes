@@ -36,6 +36,11 @@ class NotificationsViewModel @Inject constructor(
         loadFriendRequests()
     }
 
+    fun refresh() {
+        loadNotifications()
+        loadFriendRequests()
+    }
+
     private fun loadNotifications() {
         viewModelScope.launch {
             getNotificationsUseCase().collect { notifications ->

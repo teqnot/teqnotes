@@ -48,6 +48,18 @@ class HomeViewModel @Inject constructor(
         loadInitialData()
     }
 
+    fun refreshHomeData() {
+        loadInitialData()
+    }
+
+    fun refreshProjectNotes(projectId: String) {
+        viewModelScope.launch {
+            getNotesByProjectUseCase(projectId)
+                .catch { e -> Log.e("HomeVM", "Failed to refresh project notes", e) }
+                .collect { notes -> _projectNotes.value = notes }
+        }
+    }
+
     private fun loadInitialData() {
         viewModelScope.launch {
             getIndividualNotesUseCase()

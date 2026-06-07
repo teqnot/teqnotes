@@ -38,6 +38,10 @@ fun FriendsScreen(
         state.value.friends
     }
 
+    LaunchedEffect(true) {
+        viewModel.refresh()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

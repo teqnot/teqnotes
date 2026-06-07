@@ -36,7 +36,11 @@ class FriendsViewModel @Inject constructor(
         loadFriends()
     }
 
-    fun loadFriends() {
+    fun refresh() {
+        loadFriends()
+    }
+
+    private fun loadFriends() {
         viewModelScope.launch {
             getFriendsUseCase()
                 .catch { e -> _uiState.update { it.copy(error = e.message) } }

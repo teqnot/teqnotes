@@ -51,6 +51,10 @@ fun HomeScreen(
         project.name.contains(searchQuery, ignoreCase = true)
     }
 
+    LaunchedEffect(true) {
+        viewModel.refreshHomeData()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
