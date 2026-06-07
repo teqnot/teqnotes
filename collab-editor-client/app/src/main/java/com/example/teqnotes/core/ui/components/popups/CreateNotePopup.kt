@@ -41,7 +41,7 @@ import com.example.teqnotes.core.ui.theme.activeIndicatorColor
 fun CreateNotePopup(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    onCreate: () -> Unit
+    onCreate: (String) -> Unit
 ) {
     val animationDuration = 300
 
@@ -128,7 +128,10 @@ fun CreateNotePopup(
                                     color = activeIndicatorColor(),
                                     shape = RoundedCornerShape(20.dp)
                                 )
-                                .clickable { onCreate() },
+                                .clickable(
+                                    enabled = noteTitle.isNotBlank(),
+                                    onClick = { onCreate(noteTitle.trim()) }
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

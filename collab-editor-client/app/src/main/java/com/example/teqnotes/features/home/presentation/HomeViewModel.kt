@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.teqnotes.features.friends.domain.model.Friend
 import com.example.teqnotes.features.friends.domain.usecase.GetFriendsUseCase
+import com.example.teqnotes.features.home.data.remote.NoteDto
 import com.example.teqnotes.features.home.domain.model.Note
 import com.example.teqnotes.features.home.domain.model.Project
 import com.example.teqnotes.features.home.domain.usecase.AddFriendsToProjectUseCase
@@ -15,8 +16,11 @@ import com.example.teqnotes.features.home.domain.usecase.GetIndividualNotesUseCa
 import com.example.teqnotes.features.home.domain.usecase.GetNotesByProjectUseCase
 import com.example.teqnotes.features.home.domain.usecase.GetProjectsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
@@ -37,6 +41,9 @@ class HomeViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(HomeUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
+
+    private val _quickNoteCreated = MutableSharedFlow<String>()
+    val quickNoteCreated: SharedFlow<String> = _quickNoteCreated.asSharedFlow()
 
     private val _projectNotes = MutableStateFlow<List<Note>>(emptyList())
     val projectNotes = _projectNotes.asStateFlow()
@@ -94,6 +101,27 @@ class HomeViewModel @Inject constructor(
                 loadProjectNotes(projectId)
             } else {
                 loadInitialData()
+            }
+        }
+    }
+
+    fun createQuickNote(title: String) {
+        viewModelScope.launch {
+            try {
+                val created = createNoteUseCase(
+                    Note(id = "0", title = title, content = "", projectId = null)
+                )
+
+                val newId = when (created) {
+                    is NoteDto -> created.id.toString()
+                    is Note -> created.id
+                    else -> throw IllegalStateException("UseCase must return created Note/Dto")
+                }
+
+                loadInitialData()
+                _quickNoteCreated.emit(newId)
+            } catch (e: Exception) {
+                Log.e("HomeVM", "Quick note creation failed", e)
             }
         }
     }

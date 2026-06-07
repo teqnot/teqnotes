@@ -1,6 +1,5 @@
 package com.example.teqnotes.core.navigation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,6 +61,7 @@ fun AppNavGraph(
     onLogout: () -> Unit = {}
 ) {
     val view = LocalView.current
+    val homeViewModel: HomeViewModel = hiltViewModel()
 
     val showBottomNav = listOf(
         Screen.Home.route,
@@ -82,6 +82,16 @@ fun AppNavGraph(
             currentBottomRoute = currentRoute
             if (!isPopupVisible) {
                 previousRoute = currentRoute
+            }
+        }
+    }
+
+    LaunchedEffect(homeViewModel) {
+        homeViewModel.quickNoteCreated.collect { newNoteId ->
+            if (newNoteId.isNotEmpty() && newNoteId != "0") {
+                isPopupVisible = false
+                currentBottomRoute = previousRoute
+                navController.navigate("${Screen.Note.route}/$newNoteId/__individual__")
             }
         }
     }
@@ -245,9 +255,8 @@ fun AppNavGraph(
                     isPopupVisible = false
                     currentBottomRoute = previousRoute
                 },
-                onCreate = {
-                    isPopupVisible = false
-                    currentBottomRoute = previousRoute
+                onCreate = { title ->
+                    homeViewModel.createQuickNote(title)
                 }
             )
         }
