@@ -1,12 +1,11 @@
 package com.example.teqnotes.features.friends.domain.usecase
 
-import com.example.teqnotes.features.friends.domain.model.Friend
 import com.example.teqnotes.features.friends.domain.repository.FriendRepository
 import javax.inject.Inject
 
-class AddFriendUseCase @Inject constructor(
+class SendFriendRequestUseCase @Inject constructor(
     private val repository: FriendRepository
 ) {
-    suspend operator fun invoke(friend: Friend): Result<Unit> =
-        repository.addFriend(friend)
+    suspend operator fun invoke(email: String): Result<Unit> =
+        repository.sendFriendRequestByEmail(email)
 }

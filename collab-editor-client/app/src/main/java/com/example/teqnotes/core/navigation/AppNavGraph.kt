@@ -24,7 +24,7 @@ import com.example.teqnotes.features.auth.ui.LoginScreen
 import com.example.teqnotes.features.auth.ui.RegisterScreen
 import com.example.teqnotes.features.auth.ui.WelcomeScreen
 import com.example.teqnotes.features.home.ui.HomeScreen
-import com.example.teqnotes.features.notifications.presentation.NotificationsScreen
+import com.example.teqnotes.features.notifications.ui.NotificationsScreen
 import com.example.teqnotes.features.projects.ui.ProjectScreen
 import com.example.teqnotes.features.settings.ui.SettingsScreen
 import com.example.teqnotes.features.friends.ui.FriendsScreen

@@ -18,7 +18,7 @@ import com.example.teqnotes.features.notifications.data.local.NotificationEntity
         ProjectEntity::class,
         FriendEntity::class
     ],
-    version = 3, // ver up
+    version = 4, // prev: 3
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

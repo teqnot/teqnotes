@@ -14,6 +14,14 @@ interface FriendDao {
     @Query("SELECT * FROM friends WHERE isBlocked = 0 ORDER BY createdAt DESC")
     fun getFriends(): Flow<List<FriendEntity>>
 
+    @Query("""
+        SELECT * FROM friends 
+        WHERE name LIKE '%' || :query || '%' 
+        AND isBlocked = 0 
+        ORDER BY name ASC
+    """)
+    fun searchUsers(query: String): Flow<List<FriendEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFriend(friend: FriendEntity)
 
@@ -25,4 +33,7 @@ interface FriendDao {
 
     @Query("UPDATE friends SET isBlocked = 1 WHERE id = :id")
     suspend fun blockFriend(id: String)
+
+    @Query("DELETE FROM friends WHERE id = :id")
+    suspend fun deleteFriend(id: String)
 }

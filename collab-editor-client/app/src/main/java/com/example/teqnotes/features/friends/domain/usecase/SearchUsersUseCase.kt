@@ -2,11 +2,12 @@ package com.example.teqnotes.features.friends.domain.usecase
 
 import com.example.teqnotes.features.friends.domain.model.Friend
 import com.example.teqnotes.features.friends.domain.repository.FriendRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class AddFriendUseCase @Inject constructor(
+class SearchUsersUseCase @Inject constructor(
     private val repository: FriendRepository
 ) {
-    suspend operator fun invoke(friend: Friend): Result<Unit> =
-        repository.addFriend(friend)
+    operator fun invoke(query: String): Flow<List<Friend>> =
+        repository.searchUsers(query)
 }

@@ -5,6 +5,8 @@ import com.example.teqnotes.core.network.AuthInterceptor
 import com.example.teqnotes.core.network.HttpClientFactory
 import com.example.teqnotes.core.storage.TokenStorage
 import com.example.teqnotes.features.auth.data.remote.AuthApi
+import com.example.teqnotes.features.friends.data.remote.FriendApi
+import com.example.teqnotes.features.friends.data.remote.FriendApiImpl
 import com.example.teqnotes.features.home.data.remote.NoteApi
 import com.example.teqnotes.features.home.data.remote.NoteApiImpl
 import com.example.teqnotes.features.home.data.remote.ProjectApi
@@ -39,4 +41,7 @@ object NetworkModule {
 
     @Provides
     fun provideProjectApi(httpClient: HttpClient): ProjectApi = ProjectApiImpl(httpClient)
+
+    @Provides
+    fun provideFriendApi(httpClient: HttpClient): FriendApi = FriendApiImpl(httpClient)
 }

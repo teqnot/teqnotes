@@ -3,6 +3,7 @@ package com.example.features.auth.data.repository
 import com.example.features.auth.data.model.User
 import com.example.features.auth.domain.model.UserData
 import com.example.features.auth.data.model.Users
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface UserRepository {
@@ -11,6 +12,7 @@ interface UserRepository {
     fun create(email: String, passwordHash: String, name: String): UserData
     fun delete(id: Int): Boolean
     fun existsByEmail(email: String): Boolean
+    fun searchUsers(query: String): List<UserData>
 }
 
 object UserRepositoryImpl : UserRepository {
@@ -38,6 +40,13 @@ object UserRepositoryImpl : UserRepository {
 
     override fun existsByEmail(email: String): Boolean = transaction {
         User.find { Users.email eq email }.empty().not()
+    }
+
+    override fun searchUsers(query: String): List<UserData> = transaction {
+        User.find {
+            (Users.name.like("%$query%")) or (Users.email.like("%$query%"))
+        }
+            .map { toUserData(it) }
     }
 
     private fun toUserData(user: User): UserData = UserData(

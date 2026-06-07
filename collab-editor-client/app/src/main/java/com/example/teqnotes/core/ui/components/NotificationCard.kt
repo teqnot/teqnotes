@@ -1,4 +1,4 @@
-package com.example.teqnotes.features.notifications.ui
+package com.example.teqnotes.core.ui.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

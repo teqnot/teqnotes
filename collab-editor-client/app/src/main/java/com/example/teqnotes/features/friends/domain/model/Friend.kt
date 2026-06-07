@@ -5,5 +5,6 @@ data class Friend(
     val name: String,
     val email: String,
     val avatarUrl: String = "",
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val isPending: Boolean = false
 )

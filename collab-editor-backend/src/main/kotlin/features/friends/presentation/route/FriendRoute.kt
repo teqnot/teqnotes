@@ -27,7 +27,6 @@ fun Route.friendRouting(friendshipService: FriendshipService) {
             // GET /friends/requests - Входящие запросы
             get("/requests") {
                 call.getUserId().let { userId ->
-                    // Примечание: Убедитесь, что в FriendshipService реализован getIncomingRequests
                     friendshipService.getIncomingRequests(userId).respond(call)
                 }
             }

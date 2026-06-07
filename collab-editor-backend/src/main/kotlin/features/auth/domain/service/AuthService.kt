@@ -1,9 +1,7 @@
 package com.example.features.auth.domain.service
 
 import com.example.features.auth.data.repository.UserRepository
-import com.example.features.auth.data.model.User
 import com.example.features.auth.domain.model.UserData
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
 class AuthService(

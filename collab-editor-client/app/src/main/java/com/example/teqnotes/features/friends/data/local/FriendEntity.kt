@@ -11,5 +11,6 @@ data class FriendEntity(
     val email: String,
     val avatarUrl: String = "",
     val createdAt: Long = System.currentTimeMillis(),
-    val isBlocked: Boolean = false
+    val isBlocked: Boolean = false,
+    val isPending: Boolean = false
 )

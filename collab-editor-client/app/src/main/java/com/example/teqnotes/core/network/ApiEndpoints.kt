@@ -1,5 +1,7 @@
 package com.example.teqnotes.core.network
 
+import java.net.URLEncoder
+
 object ApiEndpoints {
     object Auth {
         const val REGISTER = "/auth/register"
@@ -21,9 +23,18 @@ object ApiEndpoints {
 
     object Friends {
         const val BASE = "/friends"
-        const val REQUEST = "$BASE/request"
+        const val LIST = BASE
         const val REQUESTS = "$BASE/requests"
-        fun accept(id: Int) = "$BASE/accept/$id"
-        fun reject(id: Int) = "$BASE/reject/$id"
+        const val REQUEST = "$BASE/request"
+        fun accept(requestId: Int) = "$BASE/accept/$requestId"
+        fun reject(requestId: Int) = "$BASE/reject/$requestId"
+    }
+
+    object Users {
+        const val BASE = "/users"
+        fun search(query: String): String {
+            val encoded = URLEncoder.encode(query, "UTF-8")
+            return "$BASE/search?query=$encoded"
+        }
     }
 }

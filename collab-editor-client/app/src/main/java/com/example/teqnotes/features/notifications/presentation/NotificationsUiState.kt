@@ -6,5 +6,6 @@ data class NotificationsUiState(
 
     val notifications: List<Notification> = emptyList(),
 
-    val showBookmarksOnly: Boolean = false
+    val showBookmarksOnly: Boolean = false,
+    val error: String? = null
 )

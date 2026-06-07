@@ -17,6 +17,8 @@ import com.example.features.friends.domain.service.FriendshipService
 import com.example.features.notes.domain.service.NoteService
 import com.example.features.notes.domain.service.ProjectService
 import com.example.features.auth.domain.service.TokenService
+import com.example.features.auth.domain.service.UserService
+import com.example.features.auth.presentation.route.userRouting
 import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -47,17 +49,18 @@ fun Application.module() {
 
     val tokenService = TokenService(refreshRepo, userRepo)
     val authService = AuthService(userRepo, tokenService)
-
     val noteService = NoteService(noteRepo, projectRepo, userRepo)
     val projectService = ProjectService(projectRepo, userRepo)
     val friendService = FriendshipService(friendRepo, userRepo)
+    val userService = UserService(userRepo)
 
     configureRouting(
         authService = authService,
         tokenService = tokenService,
         noteService = noteService,
         projectService = projectService,
-        friendService = friendService
+        friendService = friendService,
+        userService = userService
     )
 }
 
@@ -70,14 +73,15 @@ fun Application.configureRouting(
     tokenService: TokenService,
     noteService: NoteService,
     projectService: ProjectService,
-    friendService: FriendshipService
+    friendService: FriendshipService,
+    userService: UserService
 ) {
     routing {
         healthcheckRouting()
         authRouting(authService, tokenService)
-
         noteRouting(noteService)
         projectRouting(projectService)
         friendRouting(friendService)
+        userRouting(userService)
     }
 }
