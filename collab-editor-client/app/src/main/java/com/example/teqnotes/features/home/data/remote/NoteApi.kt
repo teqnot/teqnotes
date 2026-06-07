@@ -1,6 +1,8 @@
 package com.example.teqnotes.features.home.data.remote
 
 import com.example.teqnotes.core.network.ApiEndpoints
+import com.example.teqnotes.features.sharing.data.remote.AddMemberRequest
+import com.example.teqnotes.features.sharing.data.remote.ShareNoteRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -18,6 +20,7 @@ interface NoteApi {
     suspend fun getNote(noteId: Int): Result<NoteDto>
     suspend fun updateNote(noteId: Int, request: UpdateNoteRequest): Result<NoteDto>
     suspend fun deleteNote(noteId: Int): Result<Unit>
+    suspend fun shareNote(noteId: Int, request: ShareNoteRequest): Result<Unit>
 }
 
 class NoteApiImpl @Inject constructor(
@@ -48,6 +51,14 @@ class NoteApiImpl @Inject constructor(
 
     override suspend fun deleteNote(noteId: Int): Result<Unit> = safeCall {
         httpClient.delete("${ApiEndpoints.Notes.BASE}/$noteId")
+        Unit
+    }
+
+    override suspend fun shareNote(noteId: Int, request: ShareNoteRequest): Result<Unit> = safeCall {
+        httpClient.post(ApiEndpoints.Notes.share(noteId)) {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
         Unit
     }
 

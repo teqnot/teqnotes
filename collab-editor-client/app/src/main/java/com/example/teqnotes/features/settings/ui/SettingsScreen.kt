@@ -9,17 +9,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.teqnotes.core.ui.components.popups.DeleteConfirmationPopup
 import com.example.teqnotes.core.ui.components.settings.AccountCard
 import com.example.teqnotes.core.ui.components.settings.GeneralSettingsCard
 import com.example.teqnotes.core.ui.components.settings.SupportCard
 import com.example.teqnotes.core.ui.theme.Typography
+import com.example.teqnotes.features.settings.presentation.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
+    viewModel: SettingsViewModel = hiltViewModel(),
     onAccountClick: () -> Unit,
     onSecurityClick: () -> Unit,
     onNotificationsClick: () -> Unit,
@@ -29,6 +39,9 @@ fun SettingsScreen(
     isDarkTheme: Boolean,
     onThemeToggle: () -> Unit
 ) {
+    val state by viewModel.uiState.collectAsState()
+    var showDeleteConfirmation by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +59,7 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         AccountCard(
-            userName = "John Doe", // TODO: получить из ViewModel
+            userName = state.userName,
             onClick = onAccountClick
         )
 
@@ -64,7 +77,24 @@ fun SettingsScreen(
         SupportCard(
             onFaqClick = onFaqClick,
             onLogoutClick = onLogoutClick,
-            onDeleteAccountClick = onDeleteAccountClick
+            onDeleteAccountClick = { showDeleteConfirmation = true }
         )
+    }
+
+    if (showDeleteConfirmation) {
+        DeleteConfirmationPopup(
+            isVisible = true,
+            onDismiss = { showDeleteConfirmation = false },
+            onConfirm = {
+                showDeleteConfirmation = false
+                viewModel.deleteAccount()
+                onDeleteAccountClick()
+            }
+        )
+    }
+
+    state.error?.let { error ->
+        LaunchedEffect(error) {
+        }
     }
 }

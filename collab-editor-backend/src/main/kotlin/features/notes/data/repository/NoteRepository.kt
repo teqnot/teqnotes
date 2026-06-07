@@ -9,8 +9,10 @@ import com.example.features.notes.data.local.Notes
 import com.example.features.notes.data.local.Project
 import com.example.features.notes.data.local.ProjectMember
 import com.example.features.notes.data.local.ProjectMembers
+import com.example.features.notes.data.local.Projects
 import com.example.features.notes.domain.model.NoteAccessData
 import com.example.features.notes.domain.model.NoteData
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -61,23 +63,39 @@ object NoteRepositoryImpl : NoteRepository {
     override fun findAllByUser(userId: Int): List<NoteData> = transaction {
         val ownedNotes = Note.find { Notes.ownerId eq userId }.map { toNoteData(it) }
 
-        val accessedNoteIds = NoteAccess.find { NoteAccesses.userId eq userId }
-            .map { it.readValues[NoteAccesses.noteId] }
+        val accessedNoteIds = NoteAccesses.select(NoteAccesses.noteId)
+            .where { NoteAccesses.userId eq userId }
+            .map {
+                val id = it[NoteAccesses.noteId].value
+                id
+            }
 
         val accessedNotes = if (accessedNoteIds.isNotEmpty()) {
-            Note.find { Notes.id inList accessedNoteIds }.map { toNoteData(it) }
-        } else emptyList()
+            val entityIds = accessedNoteIds.map { EntityID(it, Notes) }
+            Note.find { Notes.id inList entityIds }.map {
+                val data = toNoteData(it)
+                data
+            }
+        } else {
+            emptyList()
+        }
 
-        val projectIds = ProjectMember.find { ProjectMembers.userId eq userId }
-            .map { it.readValues[ProjectMembers.projectId] }
+        val projectIds = ProjectMembers.select(ProjectMembers.projectId)
+            .where { ProjectMembers.userId eq userId }
+            .map { it[ProjectMembers.projectId].value }
+        println("[NoteRepo] projectIds: $projectIds")
 
         val projectNotes = if (projectIds.isNotEmpty()) {
-            Note.find { (Notes.projectId inList projectIds) and (Notes.ownerId neq userId) }
+            val projEntityIds = projectIds.map { EntityID(it, Projects) }
+            Note.find { (Notes.projectId inList projEntityIds) and (Notes.ownerId neq userId) }
                 .map { toNoteData(it) }
         } else emptyList()
 
-        (ownedNotes + accessedNotes + projectNotes).distinctBy { it.id }
+        val result = (ownedNotes + accessedNotes + projectNotes).distinctBy { it.id }
+        println("[NoteRepo] findAllByUser(userId=$userId) END: returning ${result.size} notes")
+        result
     }
+
     override fun update(id: Int, title: String?, content: String?): Unit = transaction {
         val note = Note.findById(id) ?: throw IllegalArgumentException("Note not found")
         title?.let { note.title = it }

@@ -2,6 +2,7 @@ package com.example.teqnotes.features.auth.di
 
 import com.example.teqnotes.core.storage.TokenStorage
 import com.example.teqnotes.features.auth.data.remote.AuthApi
+import com.example.teqnotes.features.auth.data.remote.UserApi
 import com.example.teqnotes.features.auth.data.repository.AuthRepositoryImpl
 import com.example.teqnotes.features.auth.domain.repository.AuthRepository
 import com.example.teqnotes.features.auth.domain.usecase.LoginUseCase
@@ -19,8 +20,8 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: AuthApi, storage: TokenStorage): AuthRepository {
-        return AuthRepositoryImpl(api, storage)
+    fun provideAuthRepository(api: AuthApi, userApi: UserApi, storage: TokenStorage): AuthRepository {
+        return AuthRepositoryImpl(api, userApi,storage)
     }
 
     @Provides

@@ -36,5 +36,6 @@ object ApiEndpoints {
             val encoded = URLEncoder.encode(query, "UTF-8")
             return "$BASE/search?query=$encoded"
         }
+        const val DELETE_ME = "$BASE/me"
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -22,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -54,8 +57,7 @@ fun NoteCard(
                 color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(20.dp)
             )
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+            .clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier
@@ -77,9 +79,9 @@ fun NoteCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = title,
                         style = TextStyle(
@@ -107,49 +109,41 @@ fun NoteCard(
                         contentDescription = "More options",
                         tint = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
-                            .size(24.dp)
                             .clickable { isMenuExpanded = true }
                     )
 
-                    Surface(
-                        shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surface,
-                        shadowElevation = 4.dp,
-                        modifier = Modifier.width(150.dp)
+                    DropdownMenu(
+                        expanded = isMenuExpanded,
+                        onDismissRequest = { isMenuExpanded = false },
+                        modifier = Modifier.wrapContentSize()
                     ) {
-                        DropdownMenu(
-                            expanded = isMenuExpanded,
-                            onDismissRequest = { isMenuExpanded = false },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            DropdownMenuItem(
-                                text = {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.sv_trash),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.error,
-                                        )
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text(
-                                            text = "Удалить",
-                                            style = TextStyle(
-                                                fontFamily = FiraCode,
-                                                fontWeight = FontWeight.Normal,
-                                                fontSize = 14.sp
-                                            ),
-                                            color = MaterialTheme.colorScheme.error
-                                        )
-                                    }
-                                },
-                                onClick = {
-                                    isMenuExpanded = false
-                                    onDelete()
+                        DropdownMenuItem(
+                            text = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.sv_trash),
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.error,
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Удалить",
+                                        style = TextStyle(
+                                            fontFamily = FiraCode,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 14.sp
+                                        ),
+                                        color = MaterialTheme.colorScheme.error
+                                    )
                                 }
-                            )
-                        }
+                            },
+                            onClick = {
+                                isMenuExpanded = false
+                                onDelete()
+                            }
+                        )
                     }
                 }
             }

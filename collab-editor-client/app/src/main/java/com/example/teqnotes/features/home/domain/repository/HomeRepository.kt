@@ -16,4 +16,7 @@ interface HomeRepository {
     suspend fun updateNote(note: Note)
     suspend fun updateProject(project: Project)
     suspend fun deleteNote(noteId: String)
+    suspend fun shareNoteWithFriends(noteId: Int, friendIds: List<Int>, role: String): Result<Unit>
+    suspend fun addFriendsToProject(projectId: Int, friendEmails: List<String>, role: String): Result<Unit>
+
 }

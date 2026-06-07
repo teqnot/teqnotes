@@ -17,6 +17,7 @@ import com.example.teqnotes.R
 import com.example.teqnotes.core.ui.components.popups.CreatePopup
 import com.example.teqnotes.core.ui.components.popups.CreationType
 import com.example.teqnotes.core.ui.components.CustomTextField
+import com.example.teqnotes.core.ui.components.FriendMultiSelectSheet
 import com.example.teqnotes.core.ui.components.bars.InfoTopBar
 import com.example.teqnotes.core.ui.components.notecard.NewNoteCard
 import com.example.teqnotes.core.ui.components.notecard.NoteCard
@@ -30,17 +31,15 @@ fun ProjectScreen(
     onNoteClick: (String, String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     val projectNotes by viewModel.projectNotes.collectAsState()
-    var isCreatePopupVisible by remember { mutableStateOf(false) }
+    val shareSheetState by viewModel.shareSheetState.collectAsState()
 
+    var isCreatePopupVisible by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
 
-    val projects by viewModel.uiState.collectAsState()
-    val projectMap = projects.projects.associate {
-        it.name to it.id
-    }
-
-    val currentProject = projects.projects.find { it.id == projectId }
+    val projectMap = uiState.projects.associate { it.name to it.id }
+    val currentProject = uiState.projects.find { it.id == projectId }
     val currentProjectName = currentProject?.name ?: projectName
 
     LaunchedEffect(projectId) {
@@ -61,7 +60,7 @@ fun ProjectScreen(
         InfoTopBar(
             onBackClick = onBackClick,
             projectName = projectName,
-            onUploadClick = { /* TODO: handle upload */ },
+            onUploadClick = { viewModel.openProjectShareSheet() },
             onMoreClick = { /* TODO: handle more options */ }
         )
 
@@ -98,6 +97,21 @@ fun ProjectScreen(
                 )
             }
         }
+    }
+
+    if (shareSheetState.isVisible) {
+        FriendMultiSelectSheet(
+            isVisible = true,
+            friends = shareSheetState.friends,
+            selectedFriendIds = shareSheetState.selectedFriendIds,
+            onSelectionChange = { newSet ->
+                viewModel.updateSelectedFriends(newSet)
+            },
+            onConfirm = { viewModel.shareProjectWithSelectedFriends(projectId) },
+            onDismiss = { viewModel.closeShareSheet() },
+            title = "Добавить участников в проект",
+            confirmButtonText = "Пригласить"
+        )
     }
 
     if (isCreatePopupVisible) {

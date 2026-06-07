@@ -15,6 +15,8 @@ import com.example.teqnotes.features.home.data.remote.UpdateProjectRequest
 import com.example.teqnotes.features.home.domain.model.Note
 import com.example.teqnotes.features.home.domain.model.Project
 import com.example.teqnotes.features.home.domain.repository.HomeRepository
+import com.example.teqnotes.features.sharing.data.remote.AddMemberRequest
+import com.example.teqnotes.features.sharing.data.remote.ShareNoteRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -137,6 +139,22 @@ class HomeRepositoryImpl @Inject constructor(
         noteApi.deleteNote(noteIdInt)
             .onSuccess { noteDao.deleteNoteById(noteId) }
             .onFailure { throw it }
+    }
+
+    override suspend fun shareNoteWithFriends(noteId: Int, friendIds: List<Int>, role: String): Result<Unit> {
+        val results = friendIds.map { userId ->
+            noteApi.shareNote(noteId, ShareNoteRequest(targetUserId = userId, role = role))
+        }
+
+        return results.firstOrNull { it.isFailure } ?: Result.success(Unit)
+    }
+
+    override suspend fun addFriendsToProject(projectId: Int, friendEmails: List<String>, role: String): Result<Unit> {
+        val results = friendEmails.map { email ->
+            projectApi.addMemberToProject(projectId, AddMemberRequest(email = email, role = role))
+        }
+
+        return results.firstOrNull { it.isFailure } ?: Result.success(Unit)
     }
 }
 

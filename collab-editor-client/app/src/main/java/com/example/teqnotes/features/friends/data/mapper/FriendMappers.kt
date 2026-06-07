@@ -17,16 +17,6 @@ fun FriendDto.toEntity(): FriendEntity = FriendEntity(
     isPending = status == "pending"
 )
 
-fun UserSearchResultDto.toEntity(): FriendEntity = FriendEntity(
-    id = id.toString(),
-    name = name,
-    email = email,
-    avatarUrl = "",
-    createdAt = System.currentTimeMillis(),
-    isBlocked = false,
-    isPending = false
-)
-
 fun FriendEntity.toDomain(): Friend = Friend(
     id = id,
     name = name,

@@ -1,5 +1,6 @@
 package com.example.teqnotes.core.navigation
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import com.example.teqnotes.features.settings.ui.SettingsScreen
 import com.example.teqnotes.features.friends.ui.FriendsScreen
 import com.example.teqnotes.core.utils.HapticFeedback
 import com.example.teqnotes.features.home.presentation.HomeViewModel
+import com.example.teqnotes.features.misc.ui.UnderConstructionScreen
 import com.example.teqnotes.features.note.ui.NoteEditorScreen
 import com.example.teqnotes.features.settings.ui.FaqScreen
 import java.net.URLDecoder
@@ -47,6 +49,7 @@ sealed class Screen(val route: String) {
     object Project : Screen("project")
     object Note: Screen("note")
     object Faq : Screen("faq")
+    object UnderConstruction : Screen("under_construction")
 }
 
 @Composable
@@ -208,14 +211,24 @@ fun AppNavGraph(
 
                 composable(Screen.Settings.route) {
                     SettingsScreen(
-                        onAccountClick = { /* TODO: navigate to account */ },
-                        onSecurityClick = { /* TODO: navigate to security */ },
-                        onNotificationsClick = { /* TODO: navigate to notifications settings */ },
+                        onAccountClick = { navController.navigate(Screen.UnderConstruction.route) },
+                        onSecurityClick =  { navController.navigate(Screen.UnderConstruction.route) },
+                        onNotificationsClick =  { navController.navigate(Screen.UnderConstruction.route) },
                         onFaqClick = { navController.navigate(Screen.Faq.route) },
                         onLogoutClick = { onLogout() },
-                        onDeleteAccountClick = { /* TODO: show delete confirmation */ },
+                        onDeleteAccountClick = {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        },
                         isDarkTheme = isDarkTheme,
                         onThemeToggle = onToggleTheme
+                    )
+                }
+
+                composable(Screen.UnderConstruction.route) {
+                    UnderConstructionScreen(
+                        onBackClick = { navController.popBackStack() }
                     )
                 }
 

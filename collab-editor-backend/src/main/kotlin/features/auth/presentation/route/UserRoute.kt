@@ -7,6 +7,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
@@ -24,6 +25,12 @@ fun Route.userRouting(userService: UserService) {
                 }
 
                 userService.searchUsers(currentUserId, query).respond(call)
+            }
+
+            // DELETE /users/me
+            delete("/me") {
+                val userId = call.getUserId()
+                userService.deleteAccount(userId).respond(call, HttpStatusCode.NoContent)
             }
         }
     }

@@ -9,6 +9,7 @@ interface AuthRepository {
     suspend fun login(email: String, password: String): Result<User>
     suspend fun refreshTokens(): Result<User>
     suspend fun logout()
+    suspend fun deleteAccount(): Result<Unit>
 
     fun getCurrentUser(): Flow<TokenStorage.UserInfo?>
     fun isLoggedIn(): Flow<Boolean>

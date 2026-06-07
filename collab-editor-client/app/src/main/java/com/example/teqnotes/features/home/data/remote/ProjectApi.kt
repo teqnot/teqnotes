@@ -1,6 +1,7 @@
 package com.example.teqnotes.features.home.data.remote
 
 import com.example.teqnotes.core.network.ApiEndpoints
+import com.example.teqnotes.features.sharing.data.remote.AddMemberRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -19,6 +20,8 @@ interface ProjectApi {
     suspend fun getProject(projectId: Int): Result<ProjectDto>
     suspend fun updateProject(projectId: Int, request: UpdateProjectRequest): Result<ProjectDto>
     suspend fun deleteProject(projectId: Int): Result<Unit>
+    suspend fun addMemberToProject(projectId: Int, request: AddMemberRequest): Result<Unit>
+
 }
 
 class ProjectApiImpl @Inject constructor(
@@ -49,6 +52,14 @@ class ProjectApiImpl @Inject constructor(
 
     override suspend fun deleteProject(projectId: Int): Result<Unit> = safeCall {
         httpClient.delete("${ApiEndpoints.Projects.BASE}/$projectId")
+        Unit
+    }
+
+    override suspend fun addMemberToProject(projectId: Int, request: AddMemberRequest): Result<Unit> = safeCall {
+        httpClient.post(ApiEndpoints.Projects.members(projectId)) {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
         Unit
     }
 

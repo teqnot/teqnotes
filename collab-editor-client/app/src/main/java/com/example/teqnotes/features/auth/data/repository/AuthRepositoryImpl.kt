@@ -5,6 +5,7 @@ import com.example.teqnotes.features.auth.data.remote.AuthApi
 import com.example.teqnotes.features.auth.data.remote.LoginRequest
 import com.example.teqnotes.features.auth.data.remote.RefreshRequest
 import com.example.teqnotes.features.auth.data.remote.RegisterRequest
+import com.example.teqnotes.features.auth.data.remote.UserApi
 import com.example.teqnotes.features.auth.data.remote.UserInfoDto
 import com.example.teqnotes.features.auth.domain.model.User
 import com.example.teqnotes.features.auth.domain.repository.AuthRepository
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 class AuthRepositoryImpl(
     private val authApi: AuthApi,
+    private val userApi: UserApi,
     private val tokenStorage: TokenStorage
 ) : AuthRepository {
 
@@ -54,6 +56,11 @@ class AuthRepositoryImpl(
 
     override suspend fun logout() {
         tokenStorage.clear()
+    }
+
+    override suspend fun deleteAccount(): Result<Unit> {
+        return userApi.deleteAccount()
+            .onSuccess { tokenStorage.clear() }
     }
 
     override fun getCurrentUser(): Flow<TokenStorage.UserInfo?> = tokenStorage.getCurrentUser()
